@@ -1,0 +1,189 @@
+# Archivo de pruebas frontend reglas de reprogramación
+flujo_reglas_reprogramacion_frontend.txt
+# No subir configuración global ni cspell
+cspell.json
+condominio/configuracionglobalreprogramacion.py
+# ======================================
+# 🚫 GITIGNORE PARA PROYECTO DJANGO
+# ======================================
+
+# ======================================
+# 🐍 PYTHON
+# ======================================
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+
+# ======================================
+# 🌐 DJANGO
+# ======================================
+# Base de datos
+*.sqlite3
+db.sqlite3
+
+# Configuraciones locales
+local_settings.py
+settings_local.py
+
+# Logs
+*.log
+
+# ======================================
+# 🚫 EXCLUIR TESTS Y GUÍAS LOCALES
+# ======================================
+# Archivos de test
+test_*.py
+*_test.py
+test_requests.py
+test_reservas_endpoint.py
+test_viewset.py
+tmp_debug_post_ticket.py
+
+# Scripts temporales de debugging (pueden contener credenciales)
+tmp_*.py
+fix_*.py
+generate_*.py
+verificar_*.py
+actualizar_*.py
+uncomment_*.py
+
+# Carpeta de pagos (guías y docs locales)
+pagos/
+
+# ======================================
+# 📚 DOCUMENTACIÓN Y GUÍAS (NO SUBIR)
+# ======================================
+# Archivos Markdown de documentación
+*.md
+!README.md
+# Archivos de texto
+*.txt
+!requirements.txt
+# Archivos de análisis y guías
+ANALISIS_*.md
+GUIA_*.md
+RESUMEN_*.md
+flujo_*.txt
+
+# Archivos HTML de prueba
+test_frontend_reportes.html
+test_*.html
+*_test.html
+
+# Media files (archivos subidos)
+media/
+soporte/
+
+# Static files (archivos estáticos recolectados)
+staticfiles/
+
+# ======================================
+# 🔒 SEGURIDAD
+# ======================================
+# Variables de entorno
+.env
+.environment
+
+# Archivos de configuración sensibles
+config.json
+credentials.json
+secrets.json
+# Firebase service account (no subir nunca)
+# Recomendado: almacenar el JSON fuera del repo, por ejemplo en `.secrets/firebase-service-account.json`
+.secrets/
+firebase-service-account.json
+service-account.json
+google-service-account.json
+*_service_account.json
+# Carpeta sugerida para credenciales (no subir)
+.secrets/
+
+# Ignorar carpeta donde guardas tu JSON de Firebase (ejemplo)
+CredencialFirebase/
+
+# Ignorar cualquier JSON que contenga firebase-adminsdk en el nombre
+*firebase-adminsdk*.json
+
+# ======================================
+# �️ ENTORNO DE DESARROLLO
+# ======================================
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Configuración local de VS Code y herramientas
+CONFIGURACION_GLOBAL_VSCODE.json
+cspell.json
+
+# ======================================
+# � SISTEMA
+# ======================================
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# ======================================
+# 📝 TEMPORALES
+# ======================================
+*.tmp
+*.bak
+*.backup
+
+# Archivos de backup (no subir)
+condominio/backups/*.zip
+*.zip
+
+# Ignore all .txt files except requirements.txt (so only requirements.txt gets pushed)
+*.txt
+!requirements.txt
+
+# Ignore local test scripts used during development
+scripts/
+scripts/*.py
+scripts/*.ps1
+scripts/*.log
+scripts/*.tmp
+
+# ======================================
+# 🧪 PRUEBAS Y TESTING
+# ======================================
+# Carpeta de pruebas de Postman (no subir al repositorio)
+pruebas_postman/
+pruebas_postman/**/*
+*.postman_collection.json
+*.postman_environment.json
+
+# Archivos de prueba locales
+test_*.json
+prueba_*.json
+*_test.json
+
+
+# Firebase service account (no subir nunca)
+# Recomendado: almacenar el JSON fuera del repo, por ejemplo en .secrets/firebase-service-account.json
+.secrets/
+firebase-service-account.json
+service-account.json
+google-service-account.json
+*_service_account.json
+# Carpeta sugerida para credenciales (no subir)
+.secrets/
+
+# Ignorar carpeta donde guardas tu JSON de Firebase (ejemplo)
+CredencialFirebase/
+
+# Ignorar cualquier JSON que contenga firebase-adminsdk en el nombre
+firebase-adminsdk.json

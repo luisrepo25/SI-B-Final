@@ -1,0 +1,1742 @@
+[
+  {
+    "model": "authz.rol",
+    "pk": 1,
+    "fields": { "nombre": "Administrador" }
+  },
+  {
+    "model": "authz.rol",
+    "pk": 2,
+    "fields": { "nombre": "Cliente" }
+  },
+  {
+    "model": "authz.rol",
+    "pk": 3,
+    "fields": { "nombre": "Proveedor" }
+  },
+  {
+    "model": "authz.rol",
+    "pk": 4,
+    "fields": { "nombre": "Soporte" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 1,
+    "fields": { "nombre": "Aventura" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 2,
+    "fields": { "nombre": "Gastronomía" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 3,
+    "fields": { "nombre": "Cultura" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 4,
+    "fields": { "nombre": "Naturaleza" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 5,
+    "fields": { "nombre": "Histórico" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 6,
+    "fields": { "nombre": "Religioso" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 7,
+    "fields": { "nombre": "Deportivo" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 8,
+    "fields": { "nombre": "Fotográfico" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 9,
+    "fields": { "nombre": "Bienestar" }
+  },
+  {
+    "model": "condominio.categoria",
+    "pk": 10,
+    "fields": { "nombre": "Educativo" }
+  },
+
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "ana.garcia",
+      "email": "ana@example.com",
+      "password": "pbkdf2_sha256$260000$dummy$w3CqgQsN7zRiWc/8BBx0iYZGpS9QqkNaITa0gmGea8M=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "condominio.usuario",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "nombre": "Ana García",
+      "rubro": "Turismo",
+      "num_viajes": 15,
+      "rol": 1,
+      "telefono": "+59170000001",
+      "fecha_nacimiento": "1990-04-12",
+      "genero": "F",
+      "documento_identidad": "5678912 LP",
+      "pais": "Bolivia"
+    }
+  },
+
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "carlos.mendez",
+      "email": "carlos@example.com",
+      "password": "pbkdf2_sha256$260000$dummy$w3CqgQsN7zRiWc/8BBx0iYZGpS9QqkNaITa0gmGea8M=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "condominio.usuario",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "nombre": "Carlos Méndez",
+      "rubro": "Transporte",
+      "num_viajes": 45,
+      "rol": 3,
+      "telefono": "+59170000002",
+      "fecha_nacimiento": "1985-09-23",
+      "genero": "M",
+      "documento_identidad": "4567890 CB",
+      "pais": "Bolivia"
+    }
+  },
+
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "username": "lucia.fernandez.ayala",
+      "email": "lucia@example.com",
+      "password": "pbkdf2_sha256$260000$dummy$w3CqgQsN7zRiWc/8BBx0iYZGpS9QqkNaITa0gmGea8M=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "condominio.usuario",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "nombre": "Lucía Fernández",
+      "rubro": "Salud",
+      "num_viajes": 5,
+      "rol": 2,
+      "telefono": "+59170000003",
+      "fecha_nacimiento": "1995-07-18",
+      "genero": "F",
+      "documento_identidad": "7890123 SC",
+      "pais": "Bolivia"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 1,
+    "fields": {
+      "descripcion": "Promo Primavera",
+      "fecha_inicio": "2025-09-01",
+      "fecha_fin": "2025-10-31",
+      "tipo_descuento": "%",
+      "monto": "10.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 2,
+    "fields": {
+      "descripcion": "Viaje en Pareja",
+      "fecha_inicio": "2025-08-15",
+      "fecha_fin": "2025-09-30",
+      "tipo_descuento": "%",
+      "monto": "20.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 3,
+    "fields": {
+      "descripcion": "Fiestas Nacionales",
+      "fecha_inicio": "2025-09-10",
+      "fecha_fin": "2025-10-15",
+      "tipo_descuento": "%",
+      "monto": "15.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 4,
+    "fields": {
+      "descripcion": "Aventura Total",
+      "fecha_inicio": "2025-07-01",
+      "fecha_fin": "2025-09-30",
+      "tipo_descuento": "%",
+      "monto": "25.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 5,
+    "fields": {
+      "descripcion": "Verano Familiar",
+      "fecha_inicio": "2025-11-01",
+      "fecha_fin": "2025-12-31",
+      "tipo_descuento": "%",
+      "monto": "12.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 6,
+    "fields": {
+      "descripcion": "Escapada Romántica",
+      "fecha_inicio": "2025-02-01",
+      "fecha_fin": "2025-03-01",
+      "tipo_descuento": "%",
+      "monto": "18.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 7,
+    "fields": {
+      "descripcion": "Explora tu Ciudad",
+      "fecha_inicio": "2025-01-10",
+      "fecha_fin": "2025-02-28",
+      "tipo_descuento": "%",
+      "monto": "8.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 8,
+    "fields": {
+      "descripcion": "Naturaleza Viva",
+      "fecha_inicio": "2025-06-01",
+      "fecha_fin": "2025-07-31",
+      "tipo_descuento": "%",
+      "monto": "14.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 9,
+    "fields": {
+      "descripcion": "Turismo Gastronómico",
+      "fecha_inicio": "2025-05-01",
+      "fecha_fin": "2025-06-30",
+      "tipo_descuento": "%",
+      "monto": "10.00"
+    }
+  },
+  {
+    "model": "condominio.campania",
+    "pk": 10,
+    "fields": {
+      "descripcion": "Escapada Cultural",
+      "fecha_inicio": "2025-09-01",
+      "fecha_fin": "2025-09-30",
+      "tipo_descuento": "%",
+      "monto": "5.00"
+    }
+  },
+
+  {
+    "model": "condominio.cupon",
+    "pk": 1,
+    "fields": { "nro_usos": 0, "cantidad_max": 20, "campania": 1 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 2,
+    "fields": { "nro_usos": 2, "cantidad_max": 20, "campania": 2 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 3,
+    "fields": { "nro_usos": 0, "cantidad_max": 15, "campania": 3 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 4,
+    "fields": { "nro_usos": 5, "cantidad_max": 25, "campania": 4 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 5,
+    "fields": { "nro_usos": 10, "cantidad_max": 30, "campania": 5 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 6,
+    "fields": { "nro_usos": 3, "cantidad_max": 20, "campania": 6 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 7,
+    "fields": { "nro_usos": 1, "cantidad_max": 10, "campania": 7 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 8,
+    "fields": { "nro_usos": 4, "cantidad_max": 40, "campania": 8 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 9,
+    "fields": { "nro_usos": 0, "cantidad_max": 15, "campania": 9 }
+  },
+  {
+    "model": "condominio.cupon",
+    "pk": 10,
+    "fields": { "nro_usos": 7, "cantidad_max": 25, "campania": 10 }
+  },
+
+  {
+    "model": "condominio.reserva",
+    "pk": 1,
+    "fields": {
+      "fecha": "2025-10-01",
+      "total": "250.00",
+      "cliente": 1,
+      "cupon": 1,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 2,
+    "fields": {
+      "fecha": "2025-09-28",
+      "total": "320.00",
+      "cliente": 2,
+      "cupon": 2,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 3,
+    "fields": {
+      "fecha": "2025-09-15",
+      "total": "150.00",
+      "cliente": 3,
+      "cupon": null,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 4,
+    "fields": {
+      "fecha": "2025-09-10",
+      "total": "450.00",
+      "cliente": 3,
+      "cupon": 3,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 5,
+    "fields": {
+      "fecha": "2025-08-30",
+      "total": "180.00",
+      "cliente": 2,
+      "cupon": null,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 6,
+    "fields": {
+      "fecha": "2025-07-25",
+      "total": "600.00",
+      "cliente": 1,
+      "cupon": 4,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 7,
+    "fields": {
+      "fecha": "2025-06-18",
+      "total": "200.00",
+      "cliente": 3,
+      "cupon": 5,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 8,
+    "fields": {
+      "fecha": "2025-06-01",
+      "total": "350.00",
+      "cliente": 2,
+      "cupon": 6,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 9,
+    "fields": {
+      "fecha": "2025-05-21",
+      "total": "410.00",
+      "cliente": 1,
+      "cupon": 7,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.reserva",
+    "pk": 10,
+    "fields": {
+      "fecha": "2025-04-10",
+      "total": "280.00",
+      "cliente": 2,
+      "cupon": 8,
+      "servicio": 1,
+      "paquete": null
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 1,
+    "fields": {
+      "nombre": "Laura",
+      "apellido": "Pérez",
+      "fecha_nac": "1990-04-05",
+      "nacionalidad": "Venezolana",
+      "nro_doc": "V-12345678",
+      "email": "laura.perez@example.com",
+      "telefono": "+58-4121234509",
+      "es_titular": true
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 2,
+    "fields": {
+      "nombre": "Andrés",
+      "apellido": "Ramírez",
+      "fecha_nac": "1985-07-10",
+      "nacionalidad": "Colombiano",
+      "nro_doc": "C-98765432",
+      "email": "andres.ramirez@example.com",
+      "telefono": "+57-3109876486",
+      "es_titular": false
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 3,
+    "fields": {
+      "nombre": "Marta",
+      "apellido": "López",
+      "fecha_nac": "1992-01-18",
+      "nacionalidad": "Peruana",
+      "nro_doc": "P-22334455",
+      "email": "marta.lopez@example.com",
+      "telefono": "+51-999888726",
+      "es_titular": true
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 4,
+    "fields": {
+      "nombre": "Diego",
+      "apellido": "Torres",
+      "fecha_nac": "1994-11-23",
+      "nacionalidad": "Chileno",
+      "nro_doc": "CH-55667788",
+      "email": "diego.torres@example.com",
+      "telefono": "+56-912345622",
+      "es_titular": false
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 5,
+    "fields": {
+      "nombre": "Camila",
+      "apellido": "Díaz",
+      "fecha_nac": "1997-08-12",
+      "nacionalidad": "Argentina",
+      "nro_doc": "AR-33445566",
+      "email": "camila.diaz@example.com",
+      "telefono": "+54-911223290",
+      "es_titular": true
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 6,
+    "fields": {
+      "nombre": "Luis",
+      "apellido": "Cordero",
+      "fecha_nac": "1988-09-20",
+      "nacionalidad": "Boliviano",
+      "nro_doc": "B-44556677",
+      "email": "luis.cordero@example.com",
+      "telefono": "+591-71234566",
+      "es_titular": false
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 7,
+    "fields": {
+      "nombre": "Natalia",
+      "apellido": "Vega",
+      "fecha_nac": "1995-02-02",
+      "nacionalidad": "Ecuatoriana",
+      "nro_doc": "E-55667788",
+      "email": "natalia.vega@example.com",
+      "telefono": "+593-981112233",
+      "es_titular": true
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 8,
+    "fields": {
+      "nombre": "Pedro",
+      "apellido": "Morales",
+      "fecha_nac": "1989-06-16",
+      "nacionalidad": "Uruguayo",
+      "nro_doc": "U-33445566",
+      "email": "pedro.morales@example.com",
+      "telefono": "+598-987654321",
+      "es_titular": false
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 9,
+    "fields": {
+      "nombre": "Valeria",
+      "apellido": "Suárez",
+      "fecha_nac": "1991-03-14",
+      "nacionalidad": "Paraguaya",
+      "nro_doc": "P-77889900",
+      "email": "valeria.suarez@example.com",
+      "telefono": "+595-981778899",
+      "es_titular": true
+    }
+  },
+  {
+    "model": "condominio.visitante",
+    "pk": 10,
+    "fields": {
+      "nombre": "José",
+      "apellido": "Pinto",
+      "fecha_nac": "1983-12-05",
+      "nacionalidad": "Mexicano",
+      "nro_doc": "M-66778899",
+      "email": "jose.pinto@example.com",
+      "telefono": "+52-5551234567",
+      "es_titular": false
+    }
+  },
+
+  {
+    "model": "condominio.servicio",
+    "pk": 1,
+    "fields": {
+      "titulo": "Salar de Uyuni",
+      "descripcion": "Tour al majestuoso desierto de sal más grande del mundo.",
+      "duracion": "8h",
+      "capacidad_max": 20,
+      "punto_encuentro": "Plaza Principal de Uyuni",
+      "estado": "Activo",
+      "categoria": 1,
+      "proveedor": 1,
+      "imagen_url": "https://images.pexels.com/photos/17507607/pexels-photo-17507607.jpeg",
+      "precio_usd": 250.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 2,
+    "fields": {
+      "titulo": "Isla del Sol",
+      "descripcion": "Recorrido cultural y paisajístico por la mítica Isla del Sol.",
+      "duracion": "6h",
+      "capacidad_max": 15,
+      "punto_encuentro": "Puerto de Copacabana",
+      "estado": "Activo",
+      "categoria": 2,
+      "proveedor": 2,
+      "imagen_url": "https://images.pexels.com/photos/17895232/pexels-photo-17895232.jpeg",
+      "precio_usd": 180.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 3,
+    "fields": {
+      "titulo": "Tiwanaku",
+      "descripcion": "Visita arqueológica al complejo precolombino más importante de Bolivia.",
+      "duracion": "4h",
+      "capacidad_max": 25,
+      "punto_encuentro": "Museo Nacional de Arqueología",
+      "estado": "Activo",
+      "categoria": 3,
+      "proveedor": 3,
+      "imagen_url": "https://images.pexels.com/photos/19032101/pexels-photo-19032101.jpeg",
+      "precio_usd": 90.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 4,
+    "fields": {
+      "titulo": "Cristo de la Concordia",
+      "descripcion": "Excursión al monumento más icónico de Cochabamba con vistas panorámicas.",
+      "duracion": "3h",
+      "capacidad_max": 15,
+      "punto_encuentro": "Teleférico Cristo",
+      "estado": "Activo",
+      "categoria": 1,
+      "proveedor": 1,
+      "imagen_url": "https://images.pexels.com/photos/15013675/pexels-photo-15013675.jpeg",
+      "precio_usd": 60.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 5,
+    "fields": {
+      "titulo": "Laguna Colorada",
+      "descripcion": "Exploración fotográfica de la espectacular laguna de tonalidades rojas.",
+      "duracion": "7h",
+      "capacidad_max": 12,
+      "punto_encuentro": "Reserva Eduardo Avaroa",
+      "estado": "Activo",
+      "categoria": 2,
+      "proveedor": 2,
+      "imagen_url": "https://images.pexels.com/photos/7124359/pexels-photo-7124359.jpeg",
+      "precio_usd": 210.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 6,
+    "fields": {
+      "titulo": "Camino de la Muerte",
+      "descripcion": "Aventura extrema por la carretera más peligrosa y famosa del mundo.",
+      "duracion": "6h",
+      "capacidad_max": 10,
+      "punto_encuentro": "Terminal de Yungas",
+      "estado": "Activo",
+      "categoria": 3,
+      "proveedor": 3,
+      "imagen_url": "https://media.istockphoto.com/id/499536590/es/foto/viajes-de-aventura-en-carretera-de-monta%C3%B1a-en-descenso-de-la-muerte.jpg?s=612x612&w=0&k=20&c=Eo6jQdoe5n2HkXaW6z40WcWxSjRV3ODLjQqL--gYSTM=",
+      "precio_usd": 150.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 7,
+    "fields": {
+      "titulo": "Coroico",
+      "descripcion": "Escapada tropical con cascadas y paisajes exuberantes en los Yungas.",
+      "duracion": "5h",
+      "capacidad_max": 18,
+      "punto_encuentro": "Plaza Principal de Coroico",
+      "estado": "Activo",
+      "categoria": 4,
+      "proveedor": 1,
+      "imagen_url": "https://media.istockphoto.com/id/859293544/es/foto/niebla-de-la-ma%C3%B1ana-sobre-el-camino-de-la-muerte-en-los-yungas-de-bolivia.jpg?s=612x612&w=0&k=20&c=WXPBBZhAKcy-cqtf-X8OsaaD1a0taHEB6mGRuu9E_MA=",
+      "precio_usd": 120.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 8,
+    "fields": {
+      "titulo": "Samaipata",
+      "descripcion": "Tour cultural y arqueológico al Fuerte de Samaipata y sus paisajes naturales.",
+      "duracion": "6h",
+      "capacidad_max": 20,
+      "punto_encuentro": "Plaza 24 de Septiembre, Santa Cruz",
+      "estado": "Activo",
+      "categoria": 5,
+      "proveedor": 2,
+      "imagen_url": "https://images.pexels.com/photos/11396013/pexels-photo-11396013.jpeg",
+      "precio_usd": 170.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 9,
+    "fields": {
+      "titulo": "Parque Nacional Madidi",
+      "descripcion": "Experiencia ecológica en una de las reservas más biodiversas del planeta.",
+      "duracion": "9h",
+      "capacidad_max": 15,
+      "punto_encuentro": "Puerto de Rurrenabaque",
+      "estado": "Activo",
+      "categoria": 6,
+      "proveedor": 3,
+      "imagen_url": "https://media.istockphoto.com/id/2010206051/es/foto/el-parque-nacional-madidi-en-bolivia.jpg?s=612x612&w=0&k=20&c=uKx8nc5iqYQp_ygMQMqkum7l8UDyjj2RAXfcA3FVOk8=",
+      "precio_usd": 300.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+  {
+    "model": "condominio.servicio",
+    "pk": 10,
+    "fields": {
+      "titulo": "Ciudad Blanca de Sucre",
+      "descripcion": "Recorrido histórico por la capital constitucional de Bolivia y sus museos.",
+      "duracion": "5h",
+      "capacidad_max": 20,
+      "punto_encuentro": "Plaza 25 de Mayo, Sucre",
+      "estado": "Activo",
+      "categoria": 7,
+      "proveedor": 1,
+      "imagen_url": "https://media.istockphoto.com/id/859293856/es/foto/paisaje-de-sucre-y-san-felipe-neri-en-bolivia.jpg?b=1&s=612x612&w=0&k=20&c=JKwqJXeE1jVeKMlXNLNRGLzn8uMybShNpP4nQ3bSFiE=",
+      "precio_usd": 100.0,
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+    }
+  },
+
+  {
+    "model": "condominio.pago",
+    "pk": 1,
+    "fields": {
+      "monto": "250.00",
+      "metodo": "Tarjeta",
+      "fecha_pago": "2025-10-01",
+      "estado": "Confirmado",
+      "url_stripe": "https://stripe.com/pay/abc123",
+      "reserva": 1
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 2,
+    "fields": {
+      "monto": "320.00",
+      "metodo": "Transferencia",
+      "fecha_pago": "2025-09-28",
+      "estado": "Pendiente",
+      "url_stripe": "https://stripe.com/pay/xyz456",
+      "reserva": 2
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 3,
+    "fields": {
+      "monto": "150.00",
+      "metodo": "Tarjeta",
+      "fecha_pago": "2025-09-15",
+      "estado": "Confirmado",
+      "url_stripe": "https://stripe.com/pay/def789",
+      "reserva": 3
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 4,
+    "fields": {
+      "monto": "450.00",
+      "metodo": "Efectivo",
+      "fecha_pago": "2025-09-10",
+      "estado": "Confirmado",
+      "url_stripe": "https://stripe.com/pay/ghi101",
+      "reserva": 4
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 5,
+    "fields": {
+      "monto": "180.00",
+      "metodo": "Tarjeta",
+      "fecha_pago": "2025-08-30",
+      "estado": "Fallido",
+      "url_stripe": "https://stripe.com/pay/jkl112",
+      "reserva": 5
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 6,
+    "fields": {
+      "monto": "600.00",
+      "metodo": "Transferencia",
+      "fecha_pago": "2025-07-25",
+      "estado": "Confirmado",
+      "url_stripe": "https://stripe.com/pay/mno113",
+      "reserva": 6
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 7,
+    "fields": {
+      "monto": "200.00",
+      "metodo": "Efectivo",
+      "fecha_pago": "2025-06-18",
+      "estado": "Pendiente",
+      "url_stripe": "https://stripe.com/pay/pqr114",
+      "reserva": 7
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 8,
+    "fields": {
+      "monto": "350.00",
+      "metodo": "Tarjeta",
+      "fecha_pago": "2025-06-01",
+      "estado": "Confirmado",
+      "url_stripe": "https://stripe.com/pay/stu115",
+      "reserva": 8
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 9,
+    "fields": {
+      "monto": "410.00",
+      "metodo": "Transferencia",
+      "fecha_pago": "2025-05-21",
+      "estado": "Pendiente",
+      "url_stripe": "https://stripe.com/pay/vwx116",
+      "reserva": 9
+    }
+  },
+  {
+    "model": "condominio.pago",
+    "pk": 10,
+    "fields": {
+      "monto": "280.00",
+      "metodo": "Tarjeta",
+      "fecha_pago": "2025-04-10",
+      "estado": "Confirmado",
+      "url_stripe": "https://stripe.com/pay/yz117",
+      "reserva": 10
+    }
+  },
+
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 1,
+    "fields": {
+      "descripcion": "Permite cambio 48h antes",
+      "limite_hora": 48,
+      "condiciones": "Sin penalización si es voluntaria"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 2,
+    "fields": {
+      "descripcion": "Permite cambio 24h antes",
+      "limite_hora": 24,
+      "condiciones": "Requiere justificación médica"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 3,
+    "fields": {
+      "descripcion": "No permite cambios el mismo día",
+      "limite_hora": 0,
+      "condiciones": "Solo por fuerza mayor"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 4,
+    "fields": {
+      "descripcion": "Cambio hasta 72h antes",
+      "limite_hora": 72,
+      "condiciones": "Sin costo adicional"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 5,
+    "fields": {
+      "descripcion": "Cambio hasta 12h antes",
+      "limite_hora": 12,
+      "condiciones": "Penalización del 20%"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 6,
+    "fields": {
+      "descripcion": "Cambio hasta 6h antes",
+      "limite_hora": 6,
+      "condiciones": "Penalización del 50%"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 7,
+    "fields": {
+      "descripcion": "Cambio libre con aviso 3 días antes",
+      "limite_hora": 72,
+      "condiciones": "Aplicable solo a clientes VIP"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 8,
+    "fields": {
+      "descripcion": "Cambio permitido 1 semana antes",
+      "limite_hora": 168,
+      "condiciones": "Solo para reservas grupales"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 9,
+    "fields": {
+      "descripcion": "Cambio permitido hasta 36h antes",
+      "limite_hora": 36,
+      "condiciones": "Penalización del 10%"
+    }
+  },
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 10,
+    "fields": {
+      "descripcion": "Sin reprogramación",
+      "limite_hora": 0,
+      "condiciones": "No se permiten cambios"
+    }
+  },
+
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 1,
+    "fields": {
+      "fecha_solicitud": "2025-10-02",
+      "nueva_fecha": "2025-10-10",
+      "estado": "Aprobado",
+      "tipo": "Voluntaria",
+      "reserva": 1
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 2,
+    "fields": {
+      "fecha_solicitud": "2025-09-28",
+      "nueva_fecha": "2025-10-05",
+      "estado": "Pendiente",
+      "tipo": "Forzada",
+      "reserva": 2
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 3,
+    "fields": {
+      "fecha_solicitud": "2025-09-16",
+      "nueva_fecha": "2025-09-20",
+      "estado": "Rechazada",
+      "tipo": "Voluntaria",
+      "reserva": 3
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 4,
+    "fields": {
+      "fecha_solicitud": "2025-09-11",
+      "nueva_fecha": "2025-09-18",
+      "estado": "Aprobado",
+      "tipo": "Forzada",
+      "reserva": 4
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 5,
+    "fields": {
+      "fecha_solicitud": "2025-08-31",
+      "nueva_fecha": "2025-09-03",
+      "estado": "Pendiente",
+      "tipo": "Voluntaria",
+      "reserva": 5
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 6,
+    "fields": {
+      "fecha_solicitud": "2025-07-27",
+      "nueva_fecha": "2025-08-01",
+      "estado": "Aprobado",
+      "tipo": "Forzada",
+      "reserva": 6
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 7,
+    "fields": {
+      "fecha_solicitud": "2025-06-19",
+      "nueva_fecha": "2025-06-25",
+      "estado": "Pendiente",
+      "tipo": "Voluntaria",
+      "reserva": 7
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 8,
+    "fields": {
+      "fecha_solicitud": "2025-06-02",
+      "nueva_fecha": "2025-06-10",
+      "estado": "Aprobado",
+      "tipo": "Voluntaria",
+      "reserva": 8
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 9,
+    "fields": {
+      "fecha_solicitud": "2025-05-22",
+      "nueva_fecha": "2025-05-28",
+      "estado": "Rechazada",
+      "tipo": "Forzada",
+      "reserva": 9
+    }
+  },
+  {
+    "model": "condominio.reprogramacion",
+    "pk": 10,
+    "fields": {
+      "fecha_solicitud": "2025-04-12",
+      "nueva_fecha": "2025-04-18",
+      "estado": "Pendiente",
+      "tipo": "Voluntaria",
+      "reserva": 10
+    }
+  },
+
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 1,
+    "fields": { "servicio": 1, "campania": 1 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 2,
+    "fields": { "servicio": 2, "campania": 2 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 3,
+    "fields": { "servicio": 3, "campania": 3 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 4,
+    "fields": { "servicio": 4, "campania": 4 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 5,
+    "fields": { "servicio": 5, "campania": 5 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 6,
+    "fields": { "servicio": 6, "campania": 6 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 7,
+    "fields": { "servicio": 7, "campania": 7 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 8,
+    "fields": { "servicio": 8, "campania": 8 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 9,
+    "fields": { "servicio": 9, "campania": 9 }
+  },
+  {
+    "model": "condominio.campaniaservicio",
+    "pk": 10,
+    "fields": { "servicio": 10, "campania": 10 }
+  },
+
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 1,
+    "fields": { "reserva": 1, "visitante": 1 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 2,
+    "fields": { "reserva": 1, "visitante": 2 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 3,
+    "fields": { "reserva": 2, "visitante": 3 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 4,
+    "fields": { "reserva": 3, "visitante": 4 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 5,
+    "fields": { "reserva": 4, "visitante": 5 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 6,
+    "fields": { "reserva": 5, "visitante": 6 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 7,
+    "fields": { "reserva": 6, "visitante": 7 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 8,
+    "fields": { "reserva": 7, "visitante": 8 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 9,
+    "fields": { "reserva": 8, "visitante": 9 }
+  },
+  {
+    "model": "condominio.reservavisitante",
+    "pk": 10,
+    "fields": { "reserva": 9, "visitante": 10 }
+  },
+
+  {
+    "model": "condominio.configuracionglobalreprogramacion",
+    "pk": 1,
+    "fields": {
+      "clave": "max_reprogramaciones_por_reserva",
+      "valor": "3",
+      "tipo_valor": "INTEGER",
+      "activa": true,
+      "descripcion": "Número máximo de reprogramaciones permitidas por reserva"
+    }
+  },
+
+  {
+    "model": "condominio.configuracionglobalreprogramacion",
+    "pk": 2,
+    "fields": {
+      "clave": "dias_minimos_antelacion",
+      "valor": "2",
+      "tipo_valor": "INTEGER",
+      "activa": true,
+      "descripcion": "Días mínimos de antelación para reprogramar una reserva"
+    }
+  },
+
+  {
+    "model": "condominio.configuracionglobalreprogramacion",
+    "pk": 3,
+    "fields": {
+      "clave": "horas_limite_reprogramacion",
+      "valor": "24",
+      "tipo_valor": "INTEGER",
+      "activa": true,
+      "descripcion": "Horas límite para realizar una reprogramación"
+    }
+  },
+
+  {
+    "model": "condominio.configuracionglobalreprogramacion",
+    "pk": 4,
+    "fields": {
+      "clave": "politicas_cancelacion",
+      "valor": "Las reservas pueden ser reprogramadas hasta 2 días antes de la fecha programada. Máximo 3 reprogramaciones por reserva.",
+      "tipo_valor": "STRING",
+      "activa": true,
+      "descripcion": "Políticas generales de cancelación y reprogramación"
+    }
+  },
+
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 1,
+    "fields": {
+      "nombre": "Tiempo Mínimo Estándar",
+      "descripcion": "Mínimo 24 horas de anticipación para reprogramar",
+      "tipo_regla": "TIEMPO_MINIMO",
+      "aplicable_a": "ALL",
+      "limite_hora": 24,
+      "valor_numerico": 24,
+      "condiciones": "{\"horas_minimas\": 24}",
+      "prioridad": 1,
+      "activa": true
+    }
+  },
+
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 2,
+    "fields": {
+      "nombre": "Límite de Reprogramaciones",
+      "descripcion": "Máximo 3 reprogramaciones por reserva",
+      "tipo_regla": "LIMITE_REPROGRAMACIONES",
+      "aplicable_a": "ALL",
+      "valor_numerico": 3,
+      "condiciones": "{\"max_reprogramaciones\": 3}",
+      "prioridad": 2,
+      "activa": true
+    }
+  },
+
+  {
+    "model": "condominio.reglareprogramacion",
+    "pk": 3,
+    "fields": {
+      "nombre": "Penalización por Reprogramar",
+      "descripcion": "5% de penalización para reprogramaciones",
+      "tipo_regla": "DESCUENTO_PENALIZACION",
+      "aplicable_a": "CLIENTE",
+      "valor_decimal": "0.05",
+      "condiciones": "{\"porcentaje_penalizacion\": 5}",
+      "prioridad": 3,
+      "activa": true
+    }
+  },
+
+  {
+    "model": "condominio.historialreprogramacion",
+    "pk": 1,
+    "fields": {
+      "reserva": 1,
+      "fecha_anterior": "2025-01-15T10:00:00Z",
+      "fecha_nueva": "2025-01-20T10:00:00Z",
+      "motivo": "Cambio de planes del cliente",
+      "reprogramado_por": 2,
+      "notificacion_enviada": true
+    }
+  },
+
+  {
+    "model": "condominio.historialreprogramacion",
+    "pk": 2,
+    "fields": {
+      "reserva": 3,
+      "fecha_anterior": "2025-02-10T14:30:00Z",
+      "fecha_nueva": "2025-02-15T14:30:00Z",
+      "motivo": "Condiciones climáticas adversas",
+      "reprogramado_por": 1,
+      "notificacion_enviada": false
+    }
+  },
+
+  {
+    "model": "condominio.paquete",
+    "pk": 1,
+    "fields": {
+      "nombre": "Aventura Andina",
+      "descripcion": "Un recorrido de 3 días por los destinos más emblemáticos del altiplano boliviano.",
+      "duracion": "3 días",
+      "precio_base": "480.00",
+      "precio_bob": "3360.00",
+      "cupos_disponibles": 15,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-01-10",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": true,
+      "imagen_principal": "https://images.pexels.com/photos/17507607/pexels-photo-17507607.jpeg",
+      "punto_salida": "La Paz, Terminal Central",
+      "incluye": ["Transporte", "Guía", "Hotel", "Entradas"],
+      "no_incluye": ["Almuerzos", "Propinas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 2,
+    "fields": {
+      "nombre": "Selva y Cultura",
+      "descripcion": "Explora la biodiversidad del Madidi y la historia de Tiwanaku en un solo paquete.",
+      "duracion": "4 días",
+      "precio_base": "650.00",
+      "precio_bob": "4550.00",
+      "cupos_disponibles": 10,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-02-01",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": false,
+      "imagen_principal": "https://images.pexels.com/photos/2010206051/pexels-photo-2010206051.jpeg",
+      "punto_salida": "Rurrenabaque, Puerto Principal",
+      "incluye": ["Transporte", "Guía", "Hotel", "Desayunos"],
+      "no_incluye": ["Cenas", "Bebidas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 3,
+    "fields": {
+      "nombre": "Ruta Colonial",
+      "descripcion": "Descubre la historia y arquitectura de Sucre y Samaipata en 2 días inolvidables.",
+      "duracion": "2 días",
+      "precio_base": "320.00",
+      "precio_bob": "2240.00",
+      "cupos_disponibles": 12,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-03-15",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": false,
+      "imagen_principal": "https://images.pexels.com/photos/859293856/pexels-photo-859293856.jpeg",
+      "punto_salida": "Sucre, Plaza 25 de Mayo",
+      "incluye": ["Transporte", "Guía", "Entradas"],
+      "no_incluye": ["Almuerzos", "Propinas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 1,
+    "fields": {
+      "paquete": 1,
+      "servicio": 1,
+      "dia": 1,
+      "orden": 1,
+      "hora_inicio": "08:00:00",
+      "hora_fin": "18:00:00",
+      "notas": "Tour completo por el Salar de Uyuni.",
+      "punto_encuentro_override": "Uyuni, Plaza Principal"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 2,
+    "fields": {
+      "paquete": 1,
+      "servicio": 5,
+      "dia": 2,
+      "orden": 1,
+      "hora_inicio": "07:00:00",
+      "hora_fin": "16:00:00",
+      "notas": "Exploración de la Laguna Colorada.",
+      "punto_encuentro_override": "Reserva Eduardo Avaroa"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 3,
+    "fields": {
+      "paquete": 1,
+      "servicio": 6,
+      "dia": 3,
+      "orden": 1,
+      "hora_inicio": "09:00:00",
+      "hora_fin": "15:00:00",
+      "notas": "Aventura en el Camino de la Muerte.",
+      "punto_encuentro_override": "Terminal de Yungas"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 4,
+    "fields": {
+      "paquete": 2,
+      "servicio": 9,
+      "dia": 1,
+      "orden": 1,
+      "hora_inicio": "07:30:00",
+      "hora_fin": "18:00:00",
+      "notas": "Recorrido ecológico en Madidi.",
+      "punto_encuentro_override": "Puerto de Rurrenabaque"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 5,
+    "fields": {
+      "paquete": 2,
+      "servicio": 3,
+      "dia": 2,
+      "orden": 1,
+      "hora_inicio": "09:00:00",
+      "hora_fin": "13:00:00",
+      "notas": "Visita arqueológica a Tiwanaku.",
+      "punto_encuentro_override": "Museo Nacional de Arqueología"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 6,
+    "fields": {
+      "paquete": 3,
+      "servicio": 10,
+      "dia": 1,
+      "orden": 1,
+      "hora_inicio": "08:30:00",
+      "hora_fin": "17:00:00",
+      "notas": "Recorrido histórico por Sucre.",
+      "punto_encuentro_override": "Plaza 25 de Mayo, Sucre"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 7,
+    "fields": {
+      "paquete": 3,
+      "servicio": 8,
+      "dia": 2,
+      "orden": 1,
+      "hora_inicio": "09:00:00",
+      "hora_fin": "16:00:00",
+      "notas": "Tour arqueológico en Samaipata.",
+      "punto_encuentro_override": "Plaza 24 de Septiembre, Santa Cruz"
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 4,
+    "fields": {
+      "nombre": "Aventura Amazónica",
+      "descripcion": "Sumérgete en la selva amazónica con actividades de senderismo, avistamiento de fauna y navegación por ríos.",
+      "duracion": "3 días",
+      "precio_base": "540.00",
+      "precio_bob": "3780.00",
+      "cupos_disponibles": 14,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-04-10",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": true,
+      "imagen_principal": "https://images.pexels.com/photos/2010206051/pexels-photo-2010206051.jpeg",
+      "punto_salida": "Rurrenabaque, Puerto Principal",
+      "incluye": ["Guía local", "Navegación", "Alojamiento ecológico"],
+      "no_incluye": ["Bebidas alcohólicas", "Propinas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 5,
+    "fields": {
+      "nombre": "Escapada Gastronómica",
+      "descripcion": "Disfruta de la mejor gastronomía boliviana con tours culinarios y degustaciones en diferentes ciudades.",
+      "duracion": "2 días",
+      "precio_base": "260.00",
+      "precio_bob": "1820.00",
+      "cupos_disponibles": 18,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-05-01",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": false,
+      "imagen_principal": "https://images.pexels.com/photos/17895232/pexels-photo-17895232.jpeg",
+      "punto_salida": "La Paz, Mercado Lanza",
+      "incluye": ["Degustaciones", "Guía gastronómico", "Transporte local"],
+      "no_incluye": ["Cenas", "Bebidas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 6,
+    "fields": {
+      "nombre": "Naturaleza y Relax",
+      "descripcion": "Relájate en los paisajes naturales de Coroico y disfruta de cascadas y senderos ecológicos.",
+      "duracion": "2 días",
+      "precio_base": "210.00",
+      "precio_bob": "1470.00",
+      "cupos_disponibles": 16,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-06-01",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": false,
+      "imagen_principal": "https://media.istockphoto.com/id/859293544/es/foto/niebla-de-la-ma%C3%B1ana-sobre-el-camino-de-la-muerte-en-los-yungas-de-bolivia.jpg",
+      "punto_salida": "Coroico, Plaza Principal",
+      "incluye": ["Hotel", "Guía", "Transporte"],
+      "no_incluye": ["Almuerzos", "Propinas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 8,
+    "fields": {
+      "paquete": 4,
+      "servicio": 9,
+      "dia": 1,
+      "orden": 1,
+      "hora_inicio": "08:00:00",
+      "hora_fin": "18:00:00",
+      "notas": "Exploración ecológica en Madidi.",
+      "punto_encuentro_override": "Puerto de Rurrenabaque"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 9,
+    "fields": {
+      "paquete": 4,
+      "servicio": 7,
+      "dia": 2,
+      "orden": 1,
+      "hora_inicio": "09:00:00",
+      "hora_fin": "16:00:00",
+      "notas": "Senderismo y cascadas en Coroico.",
+      "punto_encuentro_override": "Plaza Principal de Coroico"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 10,
+    "fields": {
+      "paquete": 5,
+      "servicio": 2,
+      "dia": 1,
+      "orden": 1,
+      "hora_inicio": "10:00:00",
+      "hora_fin": "15:00:00",
+      "notas": "Tour gastronómico en Isla del Sol.",
+      "punto_encuentro_override": "Puerto de Copacabana"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 11,
+    "fields": {
+      "paquete": 5,
+      "servicio": 4,
+      "dia": 2,
+      "orden": 1,
+      "hora_inicio": "09:00:00",
+      "hora_fin": "13:00:00",
+      "notas": "Degustación y city tour en Cochabamba.",
+      "punto_encuentro_override": "Teleférico Cristo"
+    }
+  },
+  {
+    "model": "condominio.paqueteservicio",
+    "pk": 12,
+    "fields": {
+      "paquete": 6,
+      "servicio": 7,
+      "dia": 1,
+      "orden": 1,
+      "hora_inicio": "08:30:00",
+      "hora_fin": "17:00:00",
+      "notas": "Relax y naturaleza en Coroico.",
+      "punto_encuentro_override": "Plaza Principal de Coroico"
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 1,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "nombre": "Aventura Andina",
+      "descripcion": "Un recorrido de 3 dias por los destinos mas emblematicos del altiplano boliviano.",
+      "duracion": "3 dias",
+      "precio_base": "480.00",
+      "precio_bob": "3360.00",
+      "cupos_disponibles": 15,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-01-10",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": true,
+      "imagen_principal": "https://images.pexels.com/photos/17507607/pexels-photo-17507607.jpeg",
+      "punto_salida": "La Paz, Terminal Central",
+      "incluye": ["Transporte", "Guia", "Hotel", "Entradas"],
+      "no_incluye": ["Almuerzos", "Propinas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 2,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "nombre": "Selva y Cultura",
+      "descripcion": "Explora la biodiversidad del Madidi y la historia de Tiwanaku en un solo paquete.",
+      "duracion": "4 dias",
+      "precio_base": "650.00",
+      "precio_bob": "4550.00",
+      "cupos_disponibles": 10,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-02-01",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": false,
+      "imagen_principal": "https://images.pexels.com/photos/17507607/pexels-photo-17507607.jpeg",
+      "punto_salida": "Rurrenabaque, Puerto Principal",
+      "incluye": ["Transporte", "Guia", "Hotel", "Desayunos"],
+      "no_incluye": ["Cenas", "Bebidas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 3,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "nombre": "Ruta Colonial",
+      "descripcion": "Descubre la historia y arquitectura de Sucre y Samaipata en 2 dias inolvidables.",
+      "duracion": "2 dias",
+      "precio_base": "320.00",
+      "precio_bob": "2240.00",
+      "cupos_disponibles": 12,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-03-15",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": false,
+      "imagen_principal": "https://ticketsbolivia.wordpress.com/wp-content/uploads/2017/06/potosibol.jpg?w=640",
+      "punto_salida": "Sucre, Plaza 25 de Mayo",
+      "incluye": ["Transporte", "Guia", "Entradas"],
+      "no_incluye": ["Almuerzos", "Propinas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 4,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "nombre": "Aventura Amazonica",
+      "descripcion": "Sumergente en la selva amazonica con actividades de senderismo, avistamiento de fauna y navegacion por rios.",
+      "duracion": "3 dias",
+      "precio_base": "540.00",
+      "precio_bob": "3780.00",
+      "cupos_disponibles": 14,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-04-10",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": true,
+      "imagen_principal": "https://aventura-amazonia.com/uploads/sliders/carousel7.jpg",
+      "punto_salida": "Rurrenabaque, Puerto Principal",
+      "incluye": ["Guia local", "Navegacion", "Alojamiento ecologico"],
+      "no_incluye": ["Bebidas alcoholicas", "Propinas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 5,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "nombre": "Escapada Gastronomica",
+      "descripcion": "Disfruta de la mejor gastronomia boliviana con tours culinarios y degustaciones en diferentes ciudades.",
+      "duracion": "2 dias",
+      "precio_base": "260.00",
+      "precio_bob": "1820.00",
+      "cupos_disponibles": 18,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-05-01",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": false,
+      "imagen_principal": "https://images.pexels.com/photos/17895232/pexels-photo-17895232.jpeg",
+      "punto_salida": "La Paz, Mercado Lanza",
+      "incluye": ["Degustaciones", "Guia gastronomico", "Transporte local"],
+      "no_incluye": ["Cenas", "Bebidas"],
+      "campania": null
+    }
+  },
+  {
+    "model": "condominio.paquete",
+    "pk": 6,
+    "fields": {
+      "created_at": null,
+      "updated_at": null,
+      "nombre": "Naturaleza y Relax",
+      "descripcion": "Relajate en los paisajes naturales de Coroico y disfruta de cascadas y senderos ecologicos.",
+      "duracion": "2 dias",
+      "precio_base": "210.00",
+      "precio_bob": "1470.00",
+      "cupos_disponibles": 16,
+      "cupos_ocupados": 0,
+      "fecha_inicio": "2025-06-01",
+      "fecha_fin": "2025-12-31",
+      "estado": "Activo",
+      "destacado": false,
+      "imagen_principal": "https://www.goredforwomen.org/-/media/Images/Healthy-Living/Healthy-Lifestyle/man_relaxing_In_nature.jpg?sc_lang=es&hash=0342291B9674E8B38BDA31619370253F",
+      "punto_salida": "Coroico, Plaza Principal",
+      "incluye": ["Hotel", "Guia", "Transporte"],
+      "no_incluye": ["Almuerzos", "Propinas"],
+      "campania": null
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "include": ["."],
+  "exclude": ["**/node_modules", "**/__pycache__", ".venv", ".git"],
+  "pythonVersion": "3.10",
+  "pythonPlatform": "Windows",
+  "typeCheckingMode": "off",
+  "reportIncompatibleVariableOverride": "none",
+  "reportIncompatibleMethodOverride": "none",
+  "reportGeneralTypeIssues": "none",
+  "executionEnvironments": [
+    {
+      "root": "."
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtualenv
+venv/
+ENV/
+env/
+.venv/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# env files
+.env
+.env.*
+
+# node modules (if any)
+node_modules/
+
+# backup files or local backups directory (only exclude generated archives)
+# NOTE: we must NOT exclude source files like condominio/backups/backup_full.py
+condominio/backups/*.zip
+condominio/backups/backup_temp_*
+condominio/backups/full_backup_*.zip
+
+# other
+*.pem
+*.key
+.DS_Store
+
+# don't send tests artifacts
+*.pytest_cache/
+
+# lock files
+pip-wheel-metadata/
+
+# macOS
+*.DS_Store
