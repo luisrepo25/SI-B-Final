@@ -984,20 +984,67 @@ class Proveedor(TimeStampedModel):
         return self.nombre_empresa
 
 
+class Plan(TimeStampedModel):
+    """
+    Modelo para definir los planes de suscripción disponibles
+    """
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(blank=True, null=True)
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    # Opciones de tiempo/duración
+    DURACION_OPCIONES = [
+        ('mensual', 'Mensual'),
+        ('trimestral', 'Trimestral'),
+        ('semestral', 'Semestral'),
+        ('anual', 'Anual'),
+    ]
+    duracion = models.CharField(max_length=20, choices=DURACION_OPCIONES, default='mensual')
+    
+    # Límites y características
+    max_servicios = models.PositiveIntegerField(
+        default=5, 
+        help_text="Número máximo de servicios permitidos (0 = ilimitado)"
+    )
+    max_clientes_potenciales = models.PositiveIntegerField(
+        default=100,
+        help_text="Número máximo de clientes potenciales por mes (0 = ilimitado)"
+    )
+    
+    chat_directo = models.BooleanField(default=True)
+    estadisticas_basicas = models.BooleanField(default=True)
+    posicionamiento_destacado = models.BooleanField(default=False)
+    panel_metricas_avanzado = models.BooleanField(default=False)
+    promociones_temporada = models.BooleanField(default=False)
+    soporte_prioritario = models.BooleanField(default=False)
+    difusion_internacional = models.BooleanField(default=False)
+    base_datos_viajeros_premium = models.BooleanField(default=False)
+    sello_verificado = models.BooleanField(default=False)
+    consultoria_marketing = models.BooleanField(default=False)
+    campanas_promocionales = models.BooleanField(default=False)
+    
+    destacado = models.BooleanField(default=False, help_text="¿Este plan aparece como destacado?")
+    orden = models.PositiveIntegerField(default=0, help_text="Orden de visualización")
+    activo = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return f"{self.nombre} - ${self.precio}/{self.duracion}"
+    
+    
+
+
 # ============================
 # SUSCRIPCIONES DE PROVEEDORES
 # ============================
 class Suscripcion(TimeStampedModel):
-    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name="suscripciones")
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name="proveedor")
+    plan = models.ForeignKey(Plan, on_delete=models.PROTECT,null=True, related_name="plan")
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     activa = models.BooleanField(default=True)
     stripe_session_id = models.CharField(max_length=255, blank=True, null=True)
-    def __str__(self):
-        return f"{self.proveedor} → {self.plan}"
+    stripe_subscription_id = models.CharField(max_length=255, blank=True, null=True)
+    
 
-    def esta_vigente(self):
-        from django.utils import timezone
-        hoy = timezone.now().date()
-        return self.activa and self.fecha_inicio <= hoy <= self.fecha_fin
+    def __str__(self):
+        return f"{self.proveedor.nombre_empresa} - {self.plan.nombre} ({'Activa' if self.activa else 'Inactiva'})"

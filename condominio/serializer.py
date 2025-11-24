@@ -24,6 +24,7 @@ from .models import (
     ReservaServicio,
     FCMDevice,
     CampanaNotificacion,
+    Plan
     # Proveedor, Suscripcion - MODELOS REMOVIDOS POR MIGRACION 0009
 )
 # =====================================================
@@ -1045,13 +1046,28 @@ class ProveedorSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at"]
 
+
+class PlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plan
+        fields = '__all__'
+
+
 class SuscripcionSerializer(serializers.ModelSerializer):
     proveedor = ProveedorSerializer(read_only=True)
     proveedor_id = serializers.PrimaryKeyRelatedField(
         queryset=Proveedor.objects.all(), source="proveedor", write_only=True
     )
-
+    plan = PlanSerializer(read_only=True)
+    plan_id = serializers.PrimaryKeyRelatedField(
+        queryset=Plan.objects.all(), source="plan", write_only=True
+    )
     class Meta:
         model = Suscripcion
         fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at"]
+
+
+
+
+

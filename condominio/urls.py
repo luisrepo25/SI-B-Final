@@ -8,7 +8,8 @@ from .api import (
     CampaniaServicioViewSet, PagoViewSet, ReglaReprogramacionViewSet,
     HistorialReprogramacionViewSet, ConfiguracionGlobalReprogramacionViewSet,
     ReprogramacionViewSet, TicketViewSet, TicketMessageViewSet, NotificacionViewSet,
-    PerfilUsuarioViewSet, SoportePanelViewSet, FCMDeviceViewSet, CampanaNotificacionViewSet, ReservaMultiServicioView
+    PerfilUsuarioViewSet, SoportePanelViewSet, FCMDeviceViewSet, CampanaNotificacionViewSet, ReservaMultiServicioView,
+    PlanViewSet
 )
 from .api import BitacoraViewSet
 
@@ -48,6 +49,7 @@ router.register(r'perfil', PerfilUsuarioViewSet, basename='perfil')
 router.register(r'soporte-panel', SoportePanelViewSet, basename='soporte-panel')
 router.register(r'proveedores', ProveedorViewSet, basename='proveedores')
 router.register(r'suscripciones', SuscripcionViewSet, basename='suscripciones')
+router.register(r'planes', PlanViewSet, basename='planes')
 
 
 urlpatterns = router.urls + [

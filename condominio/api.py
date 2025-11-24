@@ -81,7 +81,7 @@ class AuditedModelViewSet(viewsets.ModelViewSet):
 from .models import (
     Categoria, Proveedor, Servicio, Suscripcion, Usuario, Campania, Paquete, PaqueteServicio, Cupon, Reserva, Visitante,
     ReservaVisitante, CampaniaServicio, Pago, ReglaReprogramacion, 
-    HistorialReprogramacion, ConfiguracionGlobalReprogramacion, Reprogramacion
+    HistorialReprogramacion, ConfiguracionGlobalReprogramacion, Reprogramacion, Plan
 )
 from .serializer import (
     CategoriaSerializer, ServicioSerializer, UsuarioSerializer, CampaniaSerializer,
@@ -89,7 +89,7 @@ from .serializer import (
     CampaniaServicioSerializer, PagoSerializer, ReglaReprogramacionSerializer,
     HistorialReprogramacionSerializer, ConfiguracionGlobalReprogramacionSerializer,
     ReprogramacionSerializer, PaqueteCompletoSerializer, PaqueteSerializer, PerfilUsuarioSerializer,
-    SoporteResumenSerializer, SuscripcionSerializer, ProveedorSerializer
+    SoporteResumenSerializer, SuscripcionSerializer, ProveedorSerializer,PlanSerializer
 )
 from .serializer import TicketSerializer, TicketDetailSerializer, TicketMessageSerializer, NotificacionSerializer
 from .serializer import BitacoraSerializer
@@ -1394,4 +1394,9 @@ class ProveedorViewSet(viewsets.ModelViewSet):
 class SuscripcionViewSet(viewsets.ModelViewSet):
     queryset = Suscripcion.objects.all()
     serializer_class = SuscripcionSerializer
+    permission_classes = [permissions.AllowAny]
+
+class PlanViewSet(viewsets.ModelViewSet):
+    queryset = Plan.objects.all()
+    serializer_class = PlanSerializer
     permission_classes = [permissions.AllowAny]
