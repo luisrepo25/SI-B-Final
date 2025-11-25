@@ -18,6 +18,7 @@ load_dotenv()
 stripe.api_key = settings.STRIPE_SECRET_KEY
 url_frontend = os.getenv("URL_FRONTEND", "http://127.0.0.1:3000")
 
+
 # ============================================================================
 # HELPER: Redirección a Deep Links sin validación de esquema
 # ============================================================================
@@ -403,7 +404,7 @@ def crear_checkout_session_suscripcion(request):
                     "quantity": 1,
                 }
             ],
-            success_url=f"{url_frontend}/pago-exitoso?session_id={{CHECKOUT_SESSION_ID}}",
+            success_url=f"{url_frontend}",
             cancel_url=f"{url_frontend}/pago-cancelado/",
             metadata={
                 "usuario_id": str(usuario.id),
