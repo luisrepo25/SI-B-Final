@@ -130,10 +130,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database (SQLite Local) - COMENTADO PARA PRODUCCIÓN
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': BASE_DIR / 'db.sqlite3',
-     }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'nWzTbbOENGPvsojAXIGLVsKbEDuXXVqU',
+        'HOST': 'gondola.proxy.rlwy.net',
+        'PORT': '14218',
+    }
 }
 
 # Configuración simplificada para PostgreSQL/Railway
