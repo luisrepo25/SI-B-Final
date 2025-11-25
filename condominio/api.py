@@ -1382,7 +1382,10 @@ class ProveedorViewSet(viewsets.ModelViewSet):
     queryset = Proveedor.objects.select_related('usuario').all()
     serializer_class = ProveedorSerializer
     permission_classes = [permissions.AllowAny]
-    
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    search_fields = ['nombre_empresa', 'usuario__nombre']
+    filterset_fields = ['id', 'usuario', 'nombre_empresa']
+
     def perform_create(self, serializer):
         # Asegurarse de que el usuario exista
         user = serializer.validated_data.get('usuario')

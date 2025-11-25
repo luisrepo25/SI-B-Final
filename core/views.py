@@ -294,41 +294,61 @@ Recuerda: Responde como un asistente amable y profesional de turismo boliviano.
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# NUEVO: endpoint específico para crear sesión de suscripción
+
 @api_view(["POST"])
 def crear_checkout_session_suscripcion(request):
     try:
         data = request.data
 
         # Datos enviados desde el frontend
-        nombre = data.get("nombre", "Suscripción")
-        precio = float(data.get("precio", 0))  # ya viene en centavos
-        cantidad = int(data.get("cantidad", 1))
+
         usuario_id = data.get("usuario_id")
+        plan_id = data.get("plan_id")
         nombre_empresa = data.get("nombre_empresa", "Proveedor sin nombre")
         descripcion = data.get("descripcion", "")
         telefono = data.get("telefono", "")
         sitio_web = data.get("sitio_web", "")
 
         # Validaciones básicas
+        if not plan_id:
+            return Response({"error": "Falta plan_id"}, status=status.HTTP_400_BAD_REQUEST)
         if not usuario_id:
             return Response({"error": "Falta usuario_id"}, status=status.HTTP_400_BAD_REQUEST)
-        if precio <= 0:
-            return Response({"error": "Precio inválido"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # ============================
-        # 1️⃣ Crear Proveedor si no existe
-        # ============================
-        from condominio.models import Usuario, Proveedor, Suscripcion
+        from condominio.models import Usuario, Proveedor, Suscripcion, Plan
         from django.utils import timezone
         from datetime import timedelta
+        from django.contrib.auth.models import Group
 
         try:
             usuario = Usuario.objects.get(id=usuario_id)
+            plan = Plan.objects.get(id=plan_id)
+            print(f"✅ Usuario: {usuario.id} - {usuario.nombre} - Rol actual ID: {usuario.rol_id}")
         except Usuario.DoesNotExist:
-            return Response({"error": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": f"Usuario con ID={usuario_id} no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        except Plan.DoesNotExist:
+            return Response({"error": "Plan no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
-        proveedor, creado = Proveedor.objects.get_or_create(
+        if not plan.activo:
+            return Response({"error": "El plan seleccionado no está disponible"}, status=status.HTTP_400_BAD_REQUEST)
+
+        print("🔄 Cambiando rol del usuario a rol_id=3...")
+        from condominio.models import Rol
+        try:
+            rol_proveedor = Rol.objects.get(id=3)
+            usuario.rol = rol_proveedor
+            usuario.save()
+            print(f"✅ Rol cambiado: usuario {usuario.id} ahora tiene rol_id={usuario.rol.id}")
+        except Rol.DoesNotExist:
+            print("❌ Error: No existe el rol con id=3")
+
+        grupo_proveedor, creado_grupo = Group.objects.get_or_create(name='proveedor')
+        usuario.user.groups.clear()
+        usuario.user.groups.add(grupo_proveedor)
+        print(f"✅ Grupo Django actualizado: usuario agregado a grupo 'proveedor'")
+
+        print(f"🔍 Creando/actualizando proveedor para usuario {usuario.id}...")
+        proveedor, creado_proveedor = Proveedor.objects.get_or_create(
             usuario=usuario,
             defaults={
                 "nombre_empresa": nombre_empresa,
@@ -338,9 +358,35 @@ def crear_checkout_session_suscripcion(request):
             },
         )
 
-        # ============================
-        # 2️⃣ Crear la sesión de Stripe
-        # ============================
+        if not creado_proveedor:
+            update_fields = {}
+            if nombre_empresa and nombre_empresa != "Proveedor sin nombre":
+                update_fields["nombre_empresa"] = nombre_empresa
+            if descripcion:
+                update_fields["descripcion"] = descripcion
+            if telefono:
+                update_fields["telefono"] = telefono
+            if sitio_web:
+                update_fields["sitio_web"] = sitio_web
+            if update_fields:
+                print(f"🔄 Actualizando proveedor con: {update_fields}")
+                Proveedor.objects.filter(id=proveedor.id).update(**update_fields)
+                proveedor.refresh_from_db()
+
+        fecha_inicio = timezone.now().date()
+        duracion_dias = {
+            "mensual": 30,
+            "trimestral": 90,
+            "semestral": 180,
+            "anual": 365
+        }
+        dias_duracion = duracion_dias.get(plan.duracion.lower(), 30)
+        fecha_fin = fecha_inicio + timedelta(days=dias_duracion)
+        print(f"📅 Suscripción: {fecha_inicio} a {fecha_fin} ({dias_duracion} días)")
+
+        precio_centavos = int(float(plan.precio) * 100)
+        print(f"💰 Stripe amount: {precio_centavos} centavos")
+
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
             mode="payment",
@@ -348,66 +394,80 @@ def crear_checkout_session_suscripcion(request):
                 {
                     "price_data": {
                         "currency": "bob",
-                        "product_data": {"name": nombre},
-                        "unit_amount": int(precio),
+                        "product_data": {
+                            "name": plan.nombre,
+                            "description": plan.descripcion
+                        },
+                        "unit_amount": precio_centavos,
                     },
-                    "quantity": cantidad,
+                    "quantity": 1,
                 }
             ],
             success_url=f"{url_frontend}/pago-exitoso?session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url=f"{url_frontend}/pago-cancelado/",
             metadata={
                 "usuario_id": str(usuario.id),
+                "proveedor_id": str(proveedor.id),
+                "plan_id": str(plan.id),
                 "payment_type": "suscripcion",
-                "titulo": nombre,
+                "plan_nombre": plan.nombre,
+                "precio_total": str(plan.precio),
+                "nuevo_rol_id": "3",
             },
         )
 
-        # ============================
-        # 3️⃣ Crear la Suscripción
-        # ============================
+        print(f"✅ Sesión Stripe creada: {session.id}")
+
         suscripcion = Suscripcion.objects.create(
             proveedor=proveedor,
-            precio=(precio / 100),  # convertir de centavos a BOB
-            fecha_inicio=timezone.now().date(),
-            fecha_fin=timezone.now().date() + timedelta(days=30),
+            plan=plan,
+            fecha_inicio=fecha_inicio,
+            fecha_fin=fecha_fin,
             activa=True,
             stripe_session_id=session.id,
         )
 
-        print(f"✅ Suscripción creada para {proveedor.nombre_empresa} (ID {suscripcion.id})")
+        print(f"✅ SUSCRIPCIÓN CREADA - ID: {suscripcion.id}")
+        print(f"   Proveedor: {suscripcion.proveedor.nombre_empresa}")
+        print(f"   Plan: {suscripcion.plan.nombre}")
+        print(f"   Activa: {suscripcion.activa}")
 
-        # ============================
-        # 4️⃣ Generar y guardar recomendación en cache
-        # ============================
         try:
-            # Importación local para evitar problemas de importación circular
             from .recommendation_utils import generar_recomendacion_equipaje
-            
-            recomendacion = generar_recomendacion_equipaje(nombre, usuario_id)
+            recomendacion = generar_recomendacion_equipaje(plan.nombre, str(usuario.id))
             cache_key = f"recommendation_{session.id}"
-            cache.set(cache_key, recomendacion, timeout=3600)  # 1 hora
+            cache.set(cache_key, recomendacion, timeout=3600)
             print(f"💾 Recomendación guardada en cache: {cache_key}")
         except ImportError:
             print("⚠️  No se pudo importar recommendation_utils, omitiendo recomendación")
         except Exception as e:
             print(f"⚠️  Error generando recomendación: {e}")
 
-        # ============================
-        # 5️⃣ Devolver la URL de Stripe
-        # ============================
         return Response({
             "checkout_url": session.url,
             "session_id": session.id,
             "suscripcion_id": suscripcion.id,
             "proveedor_id": proveedor.id,
+            "plan_nombre": plan.nombre,
+            "precio": str(plan.precio),
+            "duracion": plan.duracion,
+            "fecha_inicio": fecha_inicio.isoformat(),
+            "fecha_fin": fecha_fin.isoformat(),
+            "usuario_actualizado": {
+                "id": usuario.id,
+                "nombre": usuario.nombre,
+                "nuevo_rol_id": 3,
+                "rol_anterior": usuario.rol_id,
+                "nombre_empresa": proveedor.nombre_empresa
+            },
+            "mensaje": f"Suscripción creada exitosamente. El usuario ID={usuario.id} ahora tiene rol_id=3."
         })
 
     except Exception as e:
-        print("❌ Error Stripe (suscripción manual):", e)
+        print("❌ Error en crear_checkout_session_suscripcion:", e)
+        import traceback
+        print("📝 Traceback:", traceback.format_exc())
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 
 
 @api_view(["GET"])
@@ -424,8 +484,6 @@ def verificar_pago(request):
         # extraer metadata
         metadata = getattr(session, "metadata", {}) or {}
         payment_type = metadata.get("payment_type", "venta")
-        usuario_id_meta = metadata.get("usuario_id", None)
-        titulo_meta = metadata.get("titulo", None)
 
         # ✅ CORREGIDO: Solo verificar pago, sin crear suscripción duplicada
         # La suscripción ya se crea en crear_checkout_session_suscripcion
