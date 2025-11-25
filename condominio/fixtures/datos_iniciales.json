@@ -1294,7 +1294,28 @@
       "notificacion_enviada": false
     }
   },
-
+  {
+    "model": "condominio.proveedor",
+    "pk": 1,
+    "fields": {
+      "usuario": 1,
+      "nombre_empresa": "Mi Empresa S.A.",
+      "descripcion": "Descripción del proveedor de ejemplo",
+      "telefono": "+1234567890",
+      "sitio_web": "https://www.miempresa.com"
+    }
+  },
+  {
+    "model": "condominio.proveedor",
+    "pk": 2,
+    "fields": {
+      "usuario": 2,
+      "nombre_empresa": "Proveedor XYZ",
+      "descripcion": "Especialistas en soluciones tecnológicas",
+      "telefono": "+0987654321",
+      "sitio_web": "https://www.proveedorxyz.com"
+    }
+  },
   {
     "model": "condominio.paquete",
     "pk": 1,
@@ -1314,7 +1335,8 @@
       "punto_salida": "La Paz, Terminal Central",
       "incluye": ["Transporte", "Guía", "Hotel", "Entradas"],
       "no_incluye": ["Almuerzos", "Propinas"],
-      "campania": null
+      "campania": null,
+      "proveedor": 1
     }
   },
   {
@@ -1336,7 +1358,8 @@
       "punto_salida": "Rurrenabaque, Puerto Principal",
       "incluye": ["Transporte", "Guía", "Hotel", "Desayunos"],
       "no_incluye": ["Cenas", "Bebidas"],
-      "campania": null
+      "campania": null,
+      "proveedor": 2
     }
   },
   {
@@ -1358,7 +1381,8 @@
       "punto_salida": "Sucre, Plaza 25 de Mayo",
       "incluye": ["Transporte", "Guía", "Entradas"],
       "no_incluye": ["Almuerzos", "Propinas"],
-      "campania": null
+      "campania": null,
+      "proveedor": 2
     }
   },
   {
