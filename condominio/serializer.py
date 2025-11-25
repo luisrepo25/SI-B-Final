@@ -204,47 +204,50 @@ class SoporteResumenSerializer(serializers.ModelSerializer):
     """Serializer para mostrar resumen de tickets de soporte del usuario"""
 
     tickets_total = serializers.SerializerMethodField()
-    tickets_abiertos = serializers.SerializerMethodField()
-    tickets_cerrados = serializers.SerializerMethodField()
-    ultimo_ticket = serializers.SerializerMethodField()
+    proveedor_info = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = Usuario
+        model = Paquete
         fields = [
             "id",
             "nombre",
-            "tickets_total",
-            "tickets_abiertos",
-            "tickets_cerrados",
-            "ultimo_ticket",
+            "descripcion",
+            "duracion",
+            "precio_base",
+            "precio_bob",
+            "cupos_disponibles",
+            "cupos_ocupados",
+            "fecha_inicio",
+            "fecha_fin",
+            "estado",
+            "destacado",
+            "imagen_principal",
+            "punto_salida",
+            "incluye",
+            "no_incluye",
+            "servicios_incluidos",
+            "itinerario",
+            "precios",
+            "disponibilidad",
+            "campania_info",
+            "created_at",
+            "es_personalizado",
+            "proveedor",
+            "proveedor_info",
         ]
+        read_only_fields = ["id", "created_at", "es_personalizado"]
 
-    def get_tickets_total(self, obj):
-        return obj.tickets_creados.count()
-
-    def get_tickets_abiertos(self, obj):
-        return obj.tickets_creados.exclude(estado="Cerrado").count()
-
-    def get_tickets_cerrados(self, obj):
-        return obj.tickets_creados.filter(estado="Cerrado").count()
-
-    def get_ultimo_ticket(self, obj):
-        ultimo = obj.tickets_creados.order_by("-created_at").first()
-        if ultimo:
+    def get_proveedor_info(self, obj):
+        if obj.proveedor:
             return {
-                "id": ultimo.id,
-                "asunto": ultimo.asunto,
-                "estado": ultimo.estado,
-                "fecha": ultimo.created_at,
+                "id": obj.proveedor.id,
+                "nombre": obj.proveedor.nombre,
+                "telefono": obj.proveedor.telefono,
+                "email": getattr(obj.proveedor, "user", None) and getattr(obj.proveedor.user, "email", None),
+                "rubro": obj.proveedor.rubro,
+                "rol": getattr(obj.proveedor.rol, "nombre", None),
             }
         return None
-
-
-# =====================================================
-# 🎯 CAMPAÑA
-# =====================================================
-class CampaniaSerializer(serializers.ModelSerializer):
-    class Meta:
         model = Campania
         fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at"]
@@ -379,7 +382,12 @@ class PaqueteServicioSerializer(serializers.ModelSerializer):
         """Punto de encuentro final (override o del servicio original)"""
         return obj.punto_encuentro_override or obj.servicio.punto_encuentro
 
-
+class CampaniaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Campania
+        fields = "__all__"
+        read_only_fields = ["id", "created_at", "updated_at"]
+        
 class PaqueteSerializer(serializers.ModelSerializer):
     """Serializer completo para paquetes turísticos"""
 
@@ -389,34 +397,39 @@ class PaqueteSerializer(serializers.ModelSerializer):
     disponibilidad = serializers.SerializerMethodField()
     campania_info = serializers.SerializerMethodField()
 
+    # CAMBIO: Remover el SerializerMethodField y usar el campo por defecto
+    # proveedor = serializers.SerializerMethodField()  # ← ELIMINAR ESTA LÍNEA
+
     class Meta:
         model = Paquete
-        fields = [
-            "id",
-            "nombre",
-            "descripcion",
-            "duracion",
-            "precio_base",
-            "precio_bob",
-            "cupos_disponibles",
-            "cupos_ocupados",
-            "fecha_inicio",
-            "fecha_fin",
-            "estado",
-            "destacado",
-            "imagen_principal",
-            "punto_salida",
-            "incluye",
-            "no_incluye",
-            "servicios_incluidos",
-            "itinerario",
-            "precios",
-            "disponibilidad",
-            "campania_info",
-            "created_at",
-            "es_personalizado",
-        ]
+        fields = "__all__"
         read_only_fields = ["id", "created_at", "es_personalizado"]
+
+    # ELIMINAR el método get_proveedor o cambiarlo por un campo de solo lectura
+    # def get_proveedor(self, obj):
+    #     if obj.proveedor:
+    #         return {
+    #             "id": obj.proveedor.id,
+    #             "nombre": obj.proveedor.nombre,
+    #             "telefono": obj.proveedor.telefono,
+    #             "email": getattr(obj.proveedor, "user", None) and getattr(obj.proveedor.user, "email", None),
+    #         }
+    #     return None
+
+    # Si necesitas la información del proveedor como solo lectura, usa otro nombre:
+    proveedor_info = serializers.SerializerMethodField(read_only=True)
+
+
+
+    def get_proveedor_info(self, obj):
+        if obj.proveedor:
+            return {
+                "id": obj.proveedor.id,
+                "nombre": obj.proveedor.nombre,
+                "telefono": obj.proveedor.telefono,
+                "email": getattr(obj.proveedor, "user", None) and getattr(obj.proveedor.user, "email", None),
+            }
+        return None
 
     def get_servicios_incluidos(self, obj):
         """Lista de servicios/destinos incluidos en el paquete"""

@@ -508,142 +508,12 @@ class CampaniaViewSet(viewsets.ModelViewSet):
 # =====================================================
 # 📦 PAQUETES TURÍSTICOS (Nuevo modelo)
 # =====================================================
-class PaqueteViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    ViewSet para paquetes turísticos completos con servicios/destinos incluidos
-    Permite listar, ver detalle y filtrar paquetes disponibles
-    """
-    queryset = Paquete.objects.prefetch_related(
-        'servicios__categoria', 
-        'paqueteservicio_set__servicio__categoria',
-        'campania'
-    ).all()
+class PaqueteViewSet(viewsets.ModelViewSet):
+    queryset = Paquete.objects.all()
     serializer_class = PaqueteSerializer
     permission_classes = [permissions.AllowAny]
-    
-    def get_queryset(self):
-        """Filtros personalizados para paquetes turísticos"""
-        queryset = super().get_queryset()
-        
-        # Filtrar solo paquetes activos
-        activo = self.request.query_params.get('activo', None)
-        if activo and activo.lower() == 'true':
-            queryset = queryset.filter(estado='Activo')
-        
-        # Filtrar solo paquetes disponibles (vigentes + con cupos)
-        disponible = self.request.query_params.get('disponible', None)
-        if disponible and disponible.lower() == 'true':
-            from django.utils import timezone
-            hoy = timezone.now().date()
-            queryset = queryset.filter(
-                estado='Activo',
-                fecha_inicio__lte=hoy,
-                fecha_fin__gte=hoy,
-                cupos_ocupados__lt=models.F('cupos_disponibles')
-            )
-        
-        # Filtrar solo paquetes destacados
-        destacado = self.request.query_params.get('destacado', None)
-        if destacado and destacado.lower() == 'true':
-            queryset = queryset.filter(destacado=True)
-        
-        # Filtrar por rango de precio
-        precio_min = self.request.query_params.get('precio_min', None)
-        precio_max = self.request.query_params.get('precio_max', None)
-        if precio_min:
-            queryset = queryset.filter(precio_base__gte=precio_min)
-        if precio_max:
-            queryset = queryset.filter(precio_base__lte=precio_max)
-        
-        # Filtrar por duración (contiene texto)
-        duracion = self.request.query_params.get('duracion', None)
-        if duracion:
-            queryset = queryset.filter(duracion__icontains=duracion)
-        
-        return queryset
-    
-    @action(detail=False, methods=['get'], url_path='destacados')
-    def destacados(self, request):
-        """Endpoint para obtener solo paquetes destacados"""
-        paquetes_destacados = self.get_queryset().filter(destacado=True)[:6]
-        serializer = self.get_serializer(paquetes_destacados, many=True)
-        return Response(serializer.data)
-    
-    @action(detail=False, methods=['get'], url_path='disponibles')
-    def disponibles(self, request):
-        """Endpoint para obtener solo paquetes disponibles para reservar"""
-        from django.utils import timezone
-        hoy = timezone.now().date()
-        
-        paquetes_disponibles = self.get_queryset().filter(
-            estado='Activo',
-            fecha_inicio__lte=hoy,
-            fecha_fin__gte=hoy,
-            cupos_ocupados__lt=models.F('cupos_disponibles')
-        )
-        
-        serializer = self.get_serializer(paquetes_disponibles, many=True)
-        return Response(serializer.data)
-    
-    @action(detail=True, methods=['get'], url_path='itinerario')
-    def itinerario_detallado(self, request, pk=None):
-        """Endpoint para obtener el itinerario completo de un paquete"""
-        paquete = self.get_object()
-        paquete_servicios = PaqueteServicio.objects.filter(
-            paquete=paquete
-        ).select_related('servicio__categoria').order_by('dia', 'orden')
-        
-        itinerario = {}
-        for ps in paquete_servicios:
-            dia_key = f"dia_{ps.dia}"
-            if dia_key not in itinerario:
-                itinerario[dia_key] = {
-                    'dia': ps.dia,
-                    'fecha_ejemplo': None,  # Se puede calcular con fechas reales
-                    'actividades': []
-                }
-            
-            itinerario[dia_key]['actividades'].append({
-                'id': ps.id,
-                'orden': ps.orden,
-                'hora_inicio': ps.hora_inicio,
-                'hora_fin': ps.hora_fin,
-                'servicio_id': ps.servicio.pk,
-                'titulo': ps.servicio.titulo,
-                'descripcion': ps.servicio.descripcion,
-                'categoria': ps.servicio.categoria.nombre if ps.servicio.categoria else None,
-                'punto_encuentro': ps.punto_encuentro_override or ps.servicio.punto_encuentro,
-                'notas': ps.notas,
-                'servicios_incluidos': ps.servicio.servicios_incluidos
-            })
-        
-        return Response({
-            'paquete_id': paquete.pk,
-            'paquete_nombre': paquete.nombre,
-            'duracion_total': paquete.duracion,
-            'itinerario': list(itinerario.values())
-        })
-
-    @action(detail=False, methods=['get'], url_path='mis_paquetes',
-            permission_classes=[permissions.IsAuthenticated])
-    def mis_paquetes(self, request):
-        """Devuelve los paquetes asociados al usuario autenticado.
-
-        Criterio: paquetes para los que el usuario tiene al menos una Reserva
-        (Reserva.paquete != NULL) como cliente. No modifica ni interfiere con
-        otros casos de uso (paquetes públicos, reservas individuales, etc.).
-        """
-        perfil = getattr(request.user, 'perfil', None)
-        if not perfil:
-            return Response([], status=200)
-
-        qs = self.get_queryset().filter(
-            reservas__cliente=perfil
-        ).distinct().order_by('-created_at')
-
-        serializer = self.get_serializer(qs, many=True)
-        return Response(serializer.data)
-
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_fields = ['id','proveedor', 'estado', 'servicios']
 
 # =====================================================
 # 🎟️ CUPON
@@ -663,6 +533,9 @@ class ServicioViewSet(viewsets.ModelViewSet):
     queryset = Servicio.objects.select_related('categoria').all()
     serializer_class = ServicioSerializer
     permission_classes = [permissions.AllowAny]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_fields = ['id', 'proveedor', 'estado']
+
 
 
 

@@ -233,109 +233,58 @@ class Paquete(TimeStampedModel):
         ('Agotado', 'Agotado'),
     ]
     
-    nombre = models.CharField(max_length=200, help_text="Nombre del paquete turístico")
-    es_personalizado = models.BooleanField(default=False, help_text="Indica si el paquete fue creado por el usuario")
-    descripcion = models.TextField(help_text="Descripción detallada del paquete")
-    duracion = models.CharField(max_length=50, help_text="Duración total del paquete (ej: 3 días, 1 semana)")
+    TIPOS_DESTINO = [
+        ('Cultural', 'Cultural'),
+        ('Natural', 'Natural'),
+        ('Aventura', 'Aventura'),
+        ('Rural', 'Rural'),
+        ('Urbano', 'Urbano'),
+    ]
     
-    # Servicios/Destinos incluidos en el paquete
+    nombre = models.CharField(max_length=200)
+    es_personalizado = models.BooleanField(default=False)
+    descripcion = models.TextField()
+    duracion = models.CharField(max_length=50)
+    proveedor = models.ForeignKey(
+        Usuario,  
+        on_delete=models.CASCADE, 
+        null=True, 
+        blank=True,
+    )
     servicios = models.ManyToManyField(
         Servicio, 
         through='PaqueteServicio', 
-        related_name='paquetes',
-        help_text="Servicios/destinos incluidos en este paquete"
+        related_name='paquetes'
     )
     
-    # Precios y disponibilidad
-    precio_base = models.DecimalField(
-        max_digits=10, 
-        decimal_places=2, 
-        help_text="Precio base del paquete completo en USD"
-    )
-    precio_bob = models.DecimalField(
-        max_digits=10, 
-        decimal_places=2, 
-        null=True, 
-        blank=True,
-        help_text="Precio en bolivianos (se calcula automáticamente)"
-    )
+    precio_base = models.DecimalField(max_digits=10, decimal_places=2)
+    precio_bob = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
-    # Disponibilidad
-    cupos_disponibles = models.PositiveIntegerField(
-        default=20, 
-        help_text="Número de cupos disponibles para este paquete"
-    )
-    cupos_ocupados = models.PositiveIntegerField(
-        default=0,
-        help_text="Número de cupos ya reservados"
-    )
+    cupos_disponibles = models.PositiveIntegerField(default=20)
+    cupos_ocupados = models.PositiveIntegerField(default=0)
     
-    # Fechas de vigencia
-    fecha_inicio = models.DateField(help_text="Fecha de inicio de disponibilidad")
-    fecha_fin = models.DateField(help_text="Fecha de fin de disponibilidad")
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
     
-    # Estado y configuración
     estado = models.CharField(max_length=10, choices=ESTADOS, default='Activo')
-    destacado = models.BooleanField(default=False, help_text="Mostrar como paquete destacado")
+    destacado = models.BooleanField(default=False)
     
-    # Información adicional
-    imagen_principal = models.URLField(
-        max_length=500, 
-        blank=True, 
-        null=True,
-        help_text="URL de la imagen principal del paquete"
-    )
-    punto_salida = models.CharField(
-        max_length=255, 
-        help_text="Punto de salida del paquete turístico"
-    )
-    incluye = models.JSONField(
-        default=list,
-        blank=True,
-        help_text="Lista de lo que incluye el paquete (transporte, hotel, guía, etc.)"
-    )
-    no_incluye = models.JSONField(
-        default=list,
-        blank=True,
-        help_text="Lista de lo que NO incluye el paquete"
-    )
+    imagen_principal = models.URLField(max_length=500, blank=True, null=True)
+    punto_salida = models.CharField(max_length=255)
+    incluye = models.JSONField(default=list, blank=True)
+    no_incluye = models.JSONField(default=list, blank=True)
     
-    # Campaña asociada (opcional para descuentos)
     campania = models.ForeignKey(
         'Campania', 
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True,
-        related_name='paquetes_con_descuento',
-        help_text="Campaña de descuento aplicable a este paquete"
+        related_name='paquetes_con_descuento'
     )
     
-    # Ubicación geográfica
-    departamento = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True,
-        help_text="Departamento principal del paquete turístico"
-    )
-    ciudad = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True,
-        help_text="Ciudad principal del paquete turístico"
-    )
-    tipo_destino = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
-        choices=[
-            ('Cultural', 'Cultural'),
-            ('Natural', 'Natural'),
-            ('Aventura', 'Aventura'),
-            ('Rural', 'Rural'),
-            ('Urbano', 'Urbano'),
-        ],
-        help_text="Tipo de destino turístico"
-    )
+    departamento = models.CharField(max_length=100, blank=True, null=True)
+    ciudad = models.CharField(max_length=100, blank=True, null=True)
+    tipo_destino = models.CharField(max_length=50, blank=True, null=True, choices=TIPOS_DESTINO)
 
     class Meta(TimeStampedModel.Meta):
         ordering = ['-destacado', '-created_at']
@@ -347,44 +296,38 @@ class Paquete(TimeStampedModel):
     
     @property
     def cupos_restantes(self):
-        """Cupos disponibles restantes"""
         return max(0, self.cupos_disponibles - self.cupos_ocupados)
     
     @property
     def porcentaje_ocupacion(self):
-        """Porcentaje de ocupación del paquete"""
         if self.cupos_disponibles == 0:
             return 0
         return (self.cupos_ocupados / self.cupos_disponibles) * 100
     
     @property
     def precio_con_descuento(self):
-        """Precio final aplicando descuento de campaña si existe"""
         if not self.campania:
             return self.precio_base
         
         if self.campania.tipo_descuento == '%':
             descuento = self.precio_base * (self.campania.monto / 100)
             return self.precio_base - descuento
-        else:  # Descuento fijo
+        else:
             return max(0, self.precio_base - self.campania.monto)
     
     @property
     def esta_vigente(self):
-        """Verifica si el paquete está vigente hoy"""
         from django.utils import timezone
         hoy = timezone.now().date()
         return self.fecha_inicio <= hoy <= self.fecha_fin
     
     @property
     def esta_disponible(self):
-        """Verifica si el paquete está disponible para reservar"""
         return (
             self.estado == 'Activo' and 
             self.esta_vigente and 
             self.cupos_restantes > 0
         )
-
 
 # ======================================
 # 🔗 PAQUETE_SERVICIO (tabla intermedia)
@@ -394,7 +337,6 @@ class PaqueteServicio(TimeStampedModel):
     
     paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
     servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE)
-    
     # Información específica del servicio en este paquete
     dia = models.PositiveIntegerField(help_text="Día del itinerario (1, 2, 3, etc.)")
     orden = models.PositiveIntegerField(default=1, help_text="Orden dentro del día")
