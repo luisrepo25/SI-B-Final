@@ -387,7 +387,7 @@ class CampaniaSerializer(serializers.ModelSerializer):
         model = Campania
         fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at"]
-        
+
 class PaqueteSerializer(serializers.ModelSerializer):
     """Serializer completo para paquetes turísticos"""
 
@@ -553,25 +553,9 @@ class CuponSerializer(serializers.ModelSerializer):
 # 🏞️ SERVICIO
 # =====================================================
 class ServicioSerializer(serializers.ModelSerializer):
-    categoria = CategoriaSerializer(read_only=True, default=None)
-    proveedor = UsuarioSerializer(read_only=True, default=None)
-
     class Meta:
         model = Servicio
-        fields = [
-            "id",
-            "titulo",
-            "descripcion",
-            "duracion",
-            "capacidad_max",
-            "punto_encuentro",
-            "estado",
-            "imagen_url",
-            "precio_usd",
-            "servicios_incluidos",
-            "categoria",
-            "proveedor"
-        ]
+        fields = "__all__"
         read_only_fields = ["id"]
 
 
