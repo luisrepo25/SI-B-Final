@@ -38,7 +38,7 @@ SECRET_KEY = 'django-insecure-1)v771jj-q%urr%(e@q)ug!^b2$l_mxr^f=4h#$id^h==+_m-&
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'backendspring2-production.up.railway.app',
+    'https://si-b-final-production.up.railway.app/',
     'turismosi2.netlify.app',
     'localhost',
     '127.0.0.1',
