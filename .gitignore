@@ -54,7 +54,7 @@ pagos/
 # ======================================
 # 📚 DOCUMENTACIÓN Y GUÍAS (NO SUBIR)
 # ======================================
-# Archivos Markdown de documentación
+# Ignorar todos los archivos Markdown excepto README.md
 *.md
 !README.md
 # Archivos de texto
