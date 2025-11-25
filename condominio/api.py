@@ -64,12 +64,44 @@ class AuditedModelViewSet(viewsets.ModelViewSet):
             pass
 
     def perform_update(self, serializer):
-        instance = serializer.save()
+        instance = self.get_object()
+        fecha_anterior = instance.fecha_inicio
+        data = self.request.data
+
+        # Manejar reprogramado_por como int si viene como string
+        reprogramado_por = data.get('reprogramado_por')
+        if reprogramado_por is not None and isinstance(reprogramado_por, str) and reprogramado_por.isdigit():
+            from condominio.models import Usuario
+            reprogramado_por_obj = Usuario.objects.filter(id=int(reprogramado_por)).first()
+            serializer.validated_data['reprogramado_por'] = reprogramado_por_obj
+
+        updated_instance = serializer.save()
         try:
-            descripcion = self._make_description('actualizado', instance)
-            log_bitacora(self.request, f'Actualizar {instance.__class__.__name__}', descripcion)
+            descripcion = self._make_description('actualizado', updated_instance)
+            log_bitacora(self.request, f'Actualizar {updated_instance.__class__.__name__}', descripcion)
         except Exception:
             pass
+
+        # Lógica de reprogramación SIEMPRE que venga fecha_reprogramacion
+        nueva_fecha = data.get('fecha_reprogramacion') or getattr(updated_instance, 'fecha_reprogramacion', None)
+        motivo = data.get('motivo_reprogramacion') or getattr(updated_instance, 'motivo_reprogramacion', '')
+        if nueva_fecha:
+            # Si es la primera reprogramación, guardar fecha_original
+            if not updated_instance.fecha_original:
+                updated_instance.fecha_original = fecha_anterior
+            updated_instance.fecha_reprogramacion = nueva_fecha
+            updated_instance.numero_reprogramaciones = (updated_instance.numero_reprogramaciones or 0) + 1
+            updated_instance.estado = 'REPROGRAMADA'
+            updated_instance.motivo_reprogramacion = motivo
+            updated_instance.save()
+            from condominio.models import HistorialReprogramacion
+            HistorialReprogramacion.objects.create(
+                reserva=updated_instance,
+                fecha_anterior=fecha_anterior,
+                fecha_nueva=nueva_fecha,
+                motivo=motivo,
+                reprogramado_por=updated_instance.reprogramado_por
+            )
 
     def perform_destroy(self, instance):
         try:
