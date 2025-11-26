@@ -12,7 +12,6 @@ from .views import (
     pago_exitoso_mobile,
     pago_cancelado_mobile,
 )
-from .webhooks import stripe_webhook
 
 urlpatterns = [
     # Endpoints web existentes
@@ -22,7 +21,9 @@ urlpatterns = [
     path('chatbot/turismo/', chatbot_turismo, name='chatbot-turismo'),
     path('recomendacion/', obtener_recomendacion, name='obtener-recomendacion'),
     path('verificar-pago/', verificar_pago, name='verificar-pago'),
-    path('webhook/stripe/', stripe_webhook, name='stripe-webhook'),
+    # Webhook de Stripe eliminado del enrutamiento (la generación de
+    # recomendaciones se realiza ahora desde las vistas de pago). Si necesita
+    # recibir otros eventos de Stripe, reañada manualmente la ruta.
     # Nuevos endpoints para app móvil Flutter con deep links
     path('crear-checkout-session-mobile/', crear_checkout_session_mobile, name='crear-checkout-mobile'),
     path('pago-exitoso-mobile/', pago_exitoso_mobile, name='pago-exitoso-mobile'),

@@ -20,16 +20,16 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
 from django.core.cache import cache
-from core.webhooks import generate_and_cache_recommendation
+from core.ai import generate_and_cache_recommendation
 
 # Datos del log de Flutter
 SESSION_ID = "cs_test_a1Kqx1wJULrrg2DK1RFqMQgQsamwUr4ksaghA9auRng0EmDpafVGNh8IUl"
 RESERVA_ID = 1864
 
 print("="*70)
-print("🎯 GENERANDO RECOMENDACIÓN PARA FLUTTER APP")
+print("Generando recomendación para Flutter app")
 print("="*70)
-print(f"\nSession ID: {SESSION_ID}")
+print(f"Session ID: {SESSION_ID}")
 print(f"Reserva ID: {RESERVA_ID}")
 
 # Limpiar cache previo

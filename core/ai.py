@@ -1,8 +1,10 @@
 # core/ai.py
 import os
 import json
-from core.openai_client import get_openai_client  # ← ¡ya no importamos desde core.views!
+from core.openai_client import get_openai_client  # cliente centralizado para LLMs
 from condominio.models import Reserva, Paquete, Servicio
+from django.core.cache import cache
+from typing import Optional
 
 def generate_packing_recommendation(reserva_id: int) -> dict:
     """
@@ -164,3 +166,34 @@ Asegúrate de:
             "estado": "ERROR",
             "error": str(e)
         }
+
+
+def generate_and_cache_recommendation(reserva_id: int, session_id: Optional[str], timeout: int = 3600) -> None:
+    """
+    Genera la recomendación usando `generate_packing_recommendation` y la guarda en cache
+    bajo la clave `recommendation_{session_id}`.
+
+    - Coloca un marcador inicial {"estado": "GENERANDO"} para evitar duplicados.
+    - Si `reserva_id` o `session_id` no son válidos, guarda un error descriptivo.
+    """
+    cache_key = None
+    try:
+        if not session_id:
+            return
+        cache_key = f"recommendation_{session_id}"
+
+        # Marcar como generando para evitar llamadas duplicadas
+        cache.set(cache_key, {"estado": "GENERANDO"}, timeout=timeout)
+
+        resultado = generate_packing_recommendation(reserva_id)
+
+        # Guardar el resultado tal cual lo devuelve la función de IA
+        cache.set(cache_key, resultado, timeout=timeout)
+
+    except Exception as e:
+        # Guardar un error para que el frontend lo consulte
+        if cache_key:
+            cache.set(cache_key, {"estado": "ERROR", "error": str(e)}, timeout=timeout)
+        else:
+            # Si no hay cache key, no hacemos nada más
+            pass

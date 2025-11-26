@@ -13,6 +13,8 @@ from rest_framework import status
 from django.core.cache import cache
 from .openai_client import get_openai_client  # ← cliente centralizado
 from condominio.serializer import SuscripcionSerializer 
+from threading import Thread
+from .ai import generate_and_cache_recommendation
 
 load_dotenv()
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -49,17 +51,14 @@ def obtener_recomendacion(request):
     # Intentar obtener la recomendación del caché
     cache_key = f"recommendation_{session_id}"
     recommendation = cache.get(cache_key)
-    
     if recommendation is None:
-        return Response(
-            {"error": "No se encontró una recomendación para esta sesión"}, 
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    return Response({
-        "recommendation": recommendation,
-        "session_id": session_id
-    })
+        return Response({"error": "No se encontró una recomendación para esta sesión"}, status=status.HTTP_404_NOT_FOUND)
+
+    # Si la recomendación está en proceso, devolver 202 para indicar pending
+    if isinstance(recommendation, dict) and recommendation.get("estado") == "GENERANDO":
+        return Response({"status": "GENERANDO", "session_id": session_id}, status=status.HTTP_202_ACCEPTED)
+
+    return Response({"recommendation": recommendation, "session_id": session_id})
 
 
 # @permission_classes([IsAuthenticated])
@@ -488,13 +487,31 @@ def verificar_pago(request):
 
         # ✅ CORREGIDO: Solo verificar pago, sin crear suscripción duplicada
         # La suscripción ya se crea en crear_checkout_session_suscripcion
-        
+        # Si el pago fue exitoso, iniciar generación de recomendación (si aplica)
+        recommendation_status = None
+        reserva_id = metadata.get('reserva_id')
+        if pago_exitoso and reserva_id:
+            try:
+                cache_key = f"recommendation_{session_id}"
+                if not cache.get(cache_key):
+                    cache.set(cache_key, {"estado": "GENERANDO"}, timeout=3600)
+                    thread = Thread(
+                        target=generate_and_cache_recommendation,
+                        args=(int(reserva_id), session_id),
+                        daemon=True,
+                    )
+                    thread.start()
+                recommendation_status = cache.get(cache_key)
+            except Exception as e:
+                print(f"Error iniciando generación de recomendación en verificar_pago: {e}")
+
         return Response({
             "pago_exitoso": pago_exitoso,
             "cliente_email": session.customer_details.email if session.customer_details else None,
             "monto_total": session.amount_total,
             "moneda": session.currency,
             "payment_type": payment_type,
+            "recommendation_status": recommendation_status,
         })
 
     except Exception as e:
@@ -766,6 +783,22 @@ def pago_exitoso_mobile(request):
                 else:
                     print(f"   ℹ️  Pago ya existía: ID {pago.id} (prevención de duplicados)")
                 
+                # Iniciar generación de recomendación en background (sin webhooks)
+                try:
+                    cache_key = f"recommendation_{session_id}"
+                    # Evitar lanzar múltiples procesos si ya existe un marcador
+                    if not cache.get(cache_key):
+                        cache.set(cache_key, {"estado": "GENERANDO"}, timeout=3600)
+                        thread = Thread(
+                            target=generate_and_cache_recommendation,
+                            args=(int(reserva_id), session_id),
+                            daemon=True,
+                        )
+                        thread.start()
+                        print(f"   Recomendación: generación en background iniciada para session {session_id}")
+                except Exception as e:
+                    print(f"   Error iniciando generación de recomendación: {e}")
+
                 # Construir deep link de éxito
                 deep_link = (
                     f"turismoapp://payment-success"

@@ -27,7 +27,7 @@ django.setup()
 from django.core.cache import cache
 from django.conf import settings
 from condominio.models import Reserva
-from core.webhooks import generate_and_cache_recommendation
+from core.ai import generate_and_cache_recommendation
 
 
 class Color:
