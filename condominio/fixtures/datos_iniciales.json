@@ -593,7 +593,9 @@
       "proveedor": 1,
       "imagen_url": "https://images.pexels.com/photos/17507607/pexels-photo-17507607.jpeg",
       "precio_usd": 250.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "Potosí",
+      "ciudad": "Uyuni"
     }
   },
   {
@@ -610,7 +612,9 @@
       "proveedor": 2,
       "imagen_url": "https://images.pexels.com/photos/17895232/pexels-photo-17895232.jpeg",
       "precio_usd": 180.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "La Paz",
+      "ciudad": "Copacabana"
     }
   },
   {
@@ -627,7 +631,9 @@
       "proveedor": 3,
       "imagen_url": "https://images.pexels.com/photos/19032101/pexels-photo-19032101.jpeg",
       "precio_usd": 90.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "La Paz",
+      "ciudad": "Tiwanaku"
     }
   },
   {
@@ -644,7 +650,9 @@
       "proveedor": 1,
       "imagen_url": "https://images.pexels.com/photos/15013675/pexels-photo-15013675.jpeg",
       "precio_usd": 60.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "Cochabamba",
+      "ciudad": "Cochabamba"
     }
   },
   {
@@ -661,7 +669,9 @@
       "proveedor": 2,
       "imagen_url": "https://images.pexels.com/photos/7124359/pexels-photo-7124359.jpeg",
       "precio_usd": 210.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "Potosí",
+      "ciudad": "Reserva Eduardo Avaroa"
     }
   },
   {
@@ -678,7 +688,9 @@
       "proveedor": 3,
       "imagen_url": "https://media.istockphoto.com/id/499536590/es/foto/viajes-de-aventura-en-carretera-de-monta%C3%B1a-en-descenso-de-la-muerte.jpg?s=612x612&w=0&k=20&c=Eo6jQdoe5n2HkXaW6z40WcWxSjRV3ODLjQqL--gYSTM=",
       "precio_usd": 150.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "La Paz",
+      "ciudad": "Yungas"
     }
   },
   {
@@ -695,7 +707,9 @@
       "proveedor": 1,
       "imagen_url": "https://media.istockphoto.com/id/859293544/es/foto/niebla-de-la-ma%C3%B1ana-sobre-el-camino-de-la-muerte-en-los-yungas-de-bolivia.jpg?s=612x612&w=0&k=20&c=WXPBBZhAKcy-cqtf-X8OsaaD1a0taHEB6mGRuu9E_MA=",
       "precio_usd": 120.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "La Paz",
+      "ciudad": "Coroico"
     }
   },
   {
@@ -712,7 +726,9 @@
       "proveedor": 2,
       "imagen_url": "https://images.pexels.com/photos/11396013/pexels-photo-11396013.jpeg",
       "precio_usd": 170.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "Santa Cruz",
+      "ciudad": "Samaipata"
     }
   },
   {
@@ -729,7 +745,9 @@
       "proveedor": 3,
       "imagen_url": "https://media.istockphoto.com/id/2010206051/es/foto/el-parque-nacional-madidi-en-bolivia.jpg?s=612x612&w=0&k=20&c=uKx8nc5iqYQp_ygMQMqkum7l8UDyjj2RAXfcA3FVOk8=",
       "precio_usd": 300.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "La Paz",
+      "ciudad": "Rurrenabaque"
     }
   },
   {
@@ -746,10 +764,11 @@
       "proveedor": 1,
       "imagen_url": "https://media.istockphoto.com/id/859293856/es/foto/paisaje-de-sucre-y-san-felipe-neri-en-bolivia.jpg?b=1&s=612x612&w=0&k=20&c=JKwqJXeE1jVeKMlXNLNRGLzn8uMybShNpP4nQ3bSFiE=",
       "precio_usd": 100.0,
-      "servicios_incluidos": ["Guía", "Transporte", "Hotel"]
+      "servicios_incluidos": ["Guía", "Transporte", "Hotel"],
+      "departamento": "Chuquisaca",
+      "ciudad": "Sucre"
     }
   },
-
   {
     "model": "condominio.pago",
     "pk": 1,

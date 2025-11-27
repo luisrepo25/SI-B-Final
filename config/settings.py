@@ -134,11 +134,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'nWzTbbOENGPvsojAXIGLVsKbEDuXXVqU',
-        'HOST': 'gondola.proxy.rlwy.net',
-        'PORT': '14218',
+        'PASSWORD': 'FQjdmOmTLAqhKBfVwLCkhHsApsSTGvvI',
+        'HOST': 'caboose.proxy.rlwy.net',
+        'PORT': '13722',
     }
 }
+
 
 # Configuración simplificada para PostgreSQL/Railway
 # DATABASE_URL = os.getenv("DATABASE_URL", "")
@@ -148,7 +149,7 @@ DATABASES = {
 #     }
 # else:
    
-#     DATABASES = {
+# DATABASES = {
 #         'default': {
 #             'ENGINE': 'django.db.backends.sqlite3',
 #             'NAME': BASE_DIR / 'db.sqlite3',
@@ -303,4 +304,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+    
 }

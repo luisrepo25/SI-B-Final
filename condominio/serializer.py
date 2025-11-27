@@ -604,15 +604,7 @@ class ReservaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reserva
         fields = "__all__"
-        read_only_fields = [
-            "id",
-            "codigo",
-            "reprogramado_por_nombre",
-            "numero_reprogramaciones",
-            "fecha_reprogramacion",
-            "created_at",
-            "updated_at",
-        ]
+        
 
 
 # =====================================================
