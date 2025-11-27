@@ -126,20 +126,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # SQLite comentado para usar base de datos de producción
 # ----------------------------------------------------------------------------------
 
+
 # Database (SQLite Local) - COMENTADO PARA PRODUCCIÓN
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-<<<<<<< HEAD
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': 'nWzTbbOENGPvsojAXIGLVsKbEDuXXVqU',
-#         'HOST': 'gondola.proxy.rlwy.net',
-#         'PORT': '14218',
-#     }
-# }
-=======
+# Elige la configuración activa descomentando la que corresponda:
+
+# --- PostgreSQL Producción (Railway) ---
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -150,32 +142,14 @@ DATABASES = {
         'PORT': '13722',
     }
 }
->>>>>>> 56ac4369a84514b16b909d5078fa92d8b5554d1a
 
-
-# Configuración simplificada para PostgreSQL/Railway
-# DATABASE_URL = os.getenv("DATABASE_URL", "")
-# if DATABASE_URL:
-#     DATABASES = {
-#         "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
-#     }
-# else:
-   
-<<<<<<< HEAD
-DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-=======
+# --- SQLite Local (solo para desarrollo) ---
 # DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
->>>>>>> 56ac4369a84514b16b909d5078fa92d8b5554d1a
+# }
 
 
 # --------------------------------------------------------------------------------------------------
