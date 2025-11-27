@@ -27,6 +27,26 @@ from .models import (
     Plan
     # Proveedor, Suscripcion - MODELOS REMOVIDOS POR MIGRACION 0009
 )
+class UsuarioSerializer(serializers.ModelSerializer):
+    # anidar el rol como objeto para que sea consistente con el login
+    rol = RolSerializer(read_only=True)
+
+    class Meta:
+        model = Usuario
+        fields = "__all__"
+        read_only_fields = ["id", "created_at"]
+
+class ProveedorSerializer(serializers.ModelSerializer):
+    usuario = UsuarioSerializer(read_only=True)
+    usuario_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(), source="usuario", write_only=True
+    )
+    # Campo para lectura (expandido con datos del usuario)
+
+    class Meta:
+        model = Proveedor
+        fields = "__all__"
+
 # =====================================================
 # 🔗 RESERVA_SERVICIO
 # =====================================================
@@ -125,14 +145,6 @@ class CategoriaSerializer(serializers.ModelSerializer):
 # =====================================================
 # 🧍 USUARIO
 # =====================================================
-class UsuarioSerializer(serializers.ModelSerializer):
-    # anidar el rol como objeto para que sea consistente con el login
-    rol = RolSerializer(read_only=True)
-
-    class Meta:
-        model = Usuario
-        fields = "__all__"
-        read_only_fields = ["id", "created_at"]
 
 
 # =====================================================
@@ -553,12 +565,21 @@ class CuponSerializer(serializers.ModelSerializer):
 # 🏞️ SERVICIO
 # =====================================================
 class ServicioSerializer(serializers.ModelSerializer):
+    categoria = CategoriaSerializer(read_only=True)
+    categoria_id = serializers.PrimaryKeyRelatedField(
+        queryset=Categoria.objects.all(), source="categoria", write_only=True
+    )
+    
+    # CAMBIO: Usar UsuarioSerializer en lugar de ProveedorSerializer
+    proveedor = UsuarioSerializer(read_only=True)  # ✅ Serializer correcto
+    
+    proveedor_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(), source="proveedor", write_only=True  # ✅ Usuario correcto
+    )
+    
     class Meta:
         model = Servicio
         fields = "__all__"
-        read_only_fields = ["id"]
-
-
 # =====================================================
 # 🧾 RESERVA
 # =====================================================
@@ -648,7 +669,7 @@ class CampaniaServicioSerializer(serializers.ModelSerializer):
     campania_id = serializers.PrimaryKeyRelatedField(
         queryset=Campania.objects.all(), source="campania", write_only=True
     )
-
+    
     class Meta:
         model = CampaniaServicio
         fields = [
@@ -1023,17 +1044,6 @@ class CampanaNotificacionSerializer(serializers.ModelSerializer):
         
         return data
 
-class ProveedorSerializer(serializers.ModelSerializer):
-    usuario = UsuarioSerializer(read_only=True)
-    usuario_id = serializers.PrimaryKeyRelatedField(
-        queryset=Usuario.objects.all(), source="usuario", write_only=True
-    )
-    # Campo para lectura (expandido con datos del usuario)
-
-    class Meta:
-        model = Proveedor
-        fields = "__all__"
-        read_only_fields = ["id", "created_at", "updated_at"]
 
 
 class PlanSerializer(serializers.ModelSerializer):

@@ -531,7 +531,7 @@ class CuponViewSet(viewsets.ModelViewSet):
 # 🏞️ SERVICIO
 # =====================================================
 class ServicioViewSet(viewsets.ModelViewSet):
-    queryset = Servicio.objects.select_related('categoria').all()
+    queryset = Servicio.objects.all()
     serializer_class = ServicioSerializer
     permission_classes = [permissions.AllowAny]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
