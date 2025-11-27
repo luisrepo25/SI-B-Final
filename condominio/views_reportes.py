@@ -114,7 +114,6 @@ def procesar_comando_ia(request):
 # ============================================================================
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def obtener_datos_graficas(request):
     """
     POST /api/reportes/graficas/
@@ -522,7 +521,6 @@ def obtener_datos_graficas(request):
 # ============================================================================
 
 @api_view(['GET'])
-@permission_classes([])
 def generar_reporte_ventas(request):
     """
     GET /api/reportes/ventas/
@@ -629,7 +627,7 @@ def generar_reporte_ventas(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([])
 def generar_reporte_clientes(request):
     """
     GET /api/reportes/clientes/
@@ -785,7 +783,6 @@ def generar_reporte_clientes(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def generar_reporte_productos(request):
     """
     GET /api/reportes/productos/
