@@ -28,7 +28,7 @@ from .export_utils import exportar_reporte_pdf, exportar_reporte_excel, exportar
 # ============================================================================
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([])
 def procesar_comando_ia(request):
     """
     POST /api/reportes/ia/procesar/
