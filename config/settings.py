@@ -126,6 +126,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # SQLite comentado para usar base de datos de producción
 # ----------------------------------------------------------------------------------
 
+
 # Database (SQLite Local) - COMENTADO PARA PRODUCCIÓN
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 DATABASES = {
@@ -152,10 +153,9 @@ DATABASES = {
 # else:
    
 # DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 
 

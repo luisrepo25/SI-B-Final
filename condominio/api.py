@@ -151,7 +151,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     serializer_class = UsuarioSerializer
     permission_classes = [permissions.AllowAny]
     pagination_class = ReservaPagination
-    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
+    @action(detail=False, methods=['get'], permission_classes=[permissions.AllowAny])
     def me(self, request):
         # Siempre devolver 200 para usuarios autenticados.
         # Si existe el perfil, devolverlo serializado; si no, devolver un fallback público mínimo.
@@ -175,7 +175,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         }
         return Response(fallback)
     
-    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
+    @action(detail=False, methods=['get'], permission_classes=[permissions.AllowAny])
     def test_auth(self, request):
         """
         Endpoint de prueba para validar autenticación.
@@ -263,7 +263,7 @@ class PerfilUsuarioViewSet(viewsets.ReadOnlyModelViewSet):
     Solo permite lectura - para editar usar el endpoint usuarios
     """
     serializer_class = PerfilUsuarioSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     
     def get_queryset(self):
         """Solo devolver el perfil del usuario autenticado"""
@@ -329,7 +329,7 @@ class SoportePanelViewSet(viewsets.ViewSet):
     API específica para el panel de soporte de usuarios
     Proporciona información resumida y accesos directos
     """
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     
     def list(self, request):
         """Resumen general del soporte para el usuario"""
@@ -670,7 +670,7 @@ class ConfiguracionGlobalReprogramacionViewSet(viewsets.ModelViewSet):
 class TicketViewSet(AuditedModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -710,7 +710,7 @@ class TicketViewSet(AuditedModelViewSet):
 class TicketMessageViewSet(viewsets.ModelViewSet):
     queryset = TicketMessage.objects.all()
     serializer_class = TicketMessageSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -730,7 +730,7 @@ class TicketMessageViewSet(viewsets.ModelViewSet):
 class NotificacionViewSet(viewsets.ModelViewSet):
     queryset = Notificacion.objects.all()
     serializer_class = NotificacionSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         user = self.request.user
@@ -751,7 +751,7 @@ class NotificacionViewSet(viewsets.ModelViewSet):
 class BitacoraViewSet(viewsets.ModelViewSet):
     queryset = __import__('condominio.models', fromlist=['Bitacora']).Bitacora.objects.all()
     serializer_class = BitacoraSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
 
 # ============================================
@@ -886,7 +886,7 @@ class CampanaNotificacionViewSet(viewsets.ModelViewSet):
     """
     queryset = CampanaNotificacion.objects.all()
     serializer_class = CampanaNotificacionSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['estado', 'tipo_audiencia', 'tipo_notificacion']
     search_fields = ['nombre', 'titulo', 'descripcion']
@@ -1099,7 +1099,7 @@ from rest_framework.views import APIView
 from .serializer import ReservaConServiciosSerializer, ReservaSalidaSerializer
 
 class ReservaMultiServicioView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = ReservaConServiciosSerializer(data=request.data)
