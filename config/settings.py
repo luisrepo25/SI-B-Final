@@ -88,8 +88,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://192.168.0.6:3000',
     'http://192.168.56.1:3000',
     # Frontend desplegado en Netlify
-    'https://turismosi2.netlify.app',
-    'https://sprightly-bunny-1e4b10.netlify.app'
+    'https://guiaturisticabolivia.netlify.app/'
 ]
 
 # For development you can also allow all origins (use carefully):
@@ -129,6 +128,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database (SQLite Local) - COMENTADO PARA PRODUCCIÓN
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+<<<<<<< HEAD
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -139,6 +139,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'PORT': '14218',
 #     }
 # }
+=======
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'FQjdmOmTLAqhKBfVwLCkhHsApsSTGvvI',
+        'HOST': 'caboose.proxy.rlwy.net',
+        'PORT': '13722',
+    }
+}
+>>>>>>> 56ac4369a84514b16b909d5078fa92d8b5554d1a
+
 
 # Configuración simplificada para PostgreSQL/Railway
 # DATABASE_URL = os.getenv("DATABASE_URL", "")
@@ -148,12 +161,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # else:
    
+<<<<<<< HEAD
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+=======
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+>>>>>>> 56ac4369a84514b16b909d5078fa92d8b5554d1a
 
 
 # --------------------------------------------------------------------------------------------------
@@ -303,4 +325,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+    
 }

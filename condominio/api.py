@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
+from condominio.pagination import ReservaPagination
 
 def get_user_perfil(user):
     """Safely get perfil from user object"""
@@ -149,7 +150,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
     permission_classes = [permissions.AllowAny]
-
+    pagination_class = ReservaPagination
     @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
         # Siempre devolver 200 para usuarios autenticados.
@@ -543,194 +544,20 @@ class ServicioViewSet(viewsets.ModelViewSet):
 # =====================================================
 # 🧾 RESERVA
 # =====================================================
-class ReservaViewSet(AuditedModelViewSet):
+
+class ReservaViewSet(viewsets.ModelViewSet):
     queryset = (
         Reserva.objects
         .select_related('cliente', 'cupon', 'paquete', 'servicio')
         .all()
     )
     serializer_class = ReservaSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['cliente__nombre', 'estado', 'moneda']
     filterset_fields = ['estado', 'moneda', 'cliente']
 
-    # ===============================
-    # CREACIÓN FORZANDO ESTADO PAGADA
-    # ===============================
-    def create(self, request, *args, **kwargs):
-        data = request.data.copy()
-        data['estado'] = 'PAGADA'
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    def perform_create(self, serializer):
-        """Crear la reserva y registrar Bitacora incluyendo paquete_id/servicio_id si aplica."""
-        instance = serializer.save()
-        try:
-            # Intentar obtener ids desde la instancia o desde el payload
-            paquete_id = getattr(getattr(instance, 'paquete', None), 'id', None) or getattr(instance, 'paquete_id', None) or self.request.data.get('paquete_id')
-            servicio_id = getattr(getattr(instance, 'servicio', None), 'id', None) or getattr(instance, 'servicio_id', None) or self.request.data.get('servicio_id')
-
-            descripcion = f"Reserva creado id={getattr(instance, 'id', None)}"
-            if paquete_id:
-                descripcion += f" paquete_id={paquete_id}"
-            if servicio_id:
-                descripcion += f" servicio_id={servicio_id}"
-
-            log_bitacora(self.request, 'Crear Reserva', descripcion)
-        except Exception:
-            # No bloquear creación por errores de bitácora
-            pass
-
-    # ===============================
-    # FILTRAR SEGÚN USUARIO AUTENTICADO
-    # ===============================
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        user = self.request.user
-        import logging
-        logger = logging.getLogger("django")
-        # Solo admins y soporte pueden ver todas las reservas
-        if user.is_authenticated:
-            perfil = get_user_perfil(user)
-            logger.info(f"[ReservaViewSet.get_queryset] user={user} perfil={perfil} rol={(getattr(perfil, 'rol', None))} rol_nombre={(getattr(getattr(perfil, 'rol', None), 'nombre', None))}")
-            admin_roles = ['admin', 'soporte', 'administrador']
-            if perfil and hasattr(perfil, 'rol') and perfil.rol and perfil.rol.nombre.lower() in admin_roles:
-                logger.info(f"[ReservaViewSet.get_queryset] ADMIN/SOPORTE: queryset count={queryset.count()} ids={[r.id for r in queryset]}")
-                return queryset
-            elif perfil:
-                filtered = queryset.filter(cliente=perfil)
-                logger.info(f"[ReservaViewSet.get_queryset] CLIENTE: queryset count={filtered.count()} ids={[r.id for r in filtered]}")
-                return filtered
-            else:
-                logger.info(f"[ReservaViewSet.get_queryset] SIN PERFIL: queryset vacío")
-                return queryset.none()
-        # Si no está autenticado, no ve nada
-        logger.info(f"[ReservaViewSet.get_queryset] NO AUTENTICADO: queryset vacío")
-        return queryset.none()
-
-    # ===============================
-    # MIS RESERVAS (SOLO CLIENTE)
-    # ===============================
-    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
-    def mis_reservas(self, request):
-        import logging
-        logger = logging.getLogger("django")
-        user = request.user
-        perfil = get_user_perfil(user)
-
-        logger.info(f"[mis_reservas] user={user} perfil={perfil} perfil_id={getattr(perfil, 'id', None)}")
-
-        if not perfil:
-            logger.info("[mis_reservas] No se encontró el perfil del usuario")
-            return Response(
-                {'error': 'No se encontró el perfil del usuario'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
-        reservas = (
-            Reserva.objects.filter(cliente=perfil)
-            .select_related('cliente', 'cupon', 'paquete', 'servicio')
-            .prefetch_related('visitantes__visitante')
-            .order_by('-created_at')
-        )
-
-        logger.info(f"[mis_reservas] reservas count={reservas.count()} ids={[r.id for r in reservas]}")
-
-        estado = request.query_params.get('estado')
-        if estado:
-            reservas = reservas.filter(estado__iexact=estado)
-            logger.info(f"[mis_reservas] filtro estado={estado} count={reservas.count()}")
-
-        fecha_desde = request.query_params.get('fecha_desde')
-        if fecha_desde:
-            reservas = reservas.filter(fecha__gte=fecha_desde)
-            logger.info(f"[mis_reservas] filtro fecha_desde={fecha_desde} count={reservas.count()}")
-
-        fecha_hasta = request.query_params.get('fecha_hasta')
-        if fecha_hasta:
-            reservas = reservas.filter(fecha__lte=fecha_hasta)
-            logger.info(f"[mis_reservas] filtro fecha_hasta={fecha_hasta} count={reservas.count()}")
-
-        serializer = ReservaSerializer(reservas, many=True)
-
-        stats = {
-            'total_reservas': reservas.count(),
-            'por_estado': {
-                nombre: reservas.filter(estado=clave).count()
-                for clave, nombre in Reserva.ESTADOS
-            },
-            'activas': reservas.filter(estado__in=['PENDIENTE', 'CONFIRMADA', 'PAGADA', 'REPROGRAMADA']).count(),
-            'completadas': reservas.filter(estado='COMPLETADA').count(),
-            'canceladas': reservas.filter(estado='CANCELADA').count(),
-        }
-
-        data = {
-            'estadisticas': stats,
-            'reservas': serializer.data
-        }
-
-        logger.info(f"[mis_reservas] respuesta enviada reservas={len(serializer.data)}")
-
-        return Response(data, status=status.HTTP_200_OK)
-    # ===============================
-    # RESERVAS ACTIVAS
-    # ===============================
-    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
-    def reservas_activas(self, request):
-        user = request.user
-        perfil = get_user_perfil(user)
-        if not perfil:
-            return Response({'error': 'No se encontró el perfil del usuario'}, status=status.HTTP_404_NOT_FOUND)
-
-        reservas_activas = (
-            Reserva.objects.filter(
-                cliente=perfil,
-                estado__in=['PENDIENTE', 'CONFIRMADA', 'PAGADA', 'REPROGRAMADA']
-            )
-            .select_related('cliente', 'cupon', 'paquete', 'servicio')
-            .order_by('-created_at')
-        )
-        serializer = ReservaSerializer(reservas_activas, many=True)
-        return Response({'count': reservas_activas.count(), 'reservas_activas': serializer.data})
-
-    # ===============================
-    # HISTORIAL COMPLETO
-    # ===============================
-    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
-    def historial_completo(self, request):
-        user = request.user
-        perfil = get_user_perfil(user)
-        if not perfil:
-            return Response({'error': 'No se encontró el perfil del usuario'}, status=status.HTTP_404_NOT_FOUND)
-
-        reservas = (
-            Reserva.objects.filter(cliente=perfil)
-            .select_related('cliente', 'cupon', 'paquete', 'servicio', 'reprogramado_por')
-            .prefetch_related('historial_reprogramaciones')
-            .order_by('-created_at')
-        )
-
-        historial_data = []
-        for reserva in reservas:
-            reserva_data = dict(ReservaSerializer(reserva).data)
-            historiales = HistorialReprogramacion.objects.filter(reserva=reserva)
-            reserva_data['historial_reprogramaciones'] = [
-                {
-                    'fecha_anterior': h.fecha_anterior,
-                    'fecha_nueva': h.fecha_nueva,
-                    'motivo': h.motivo,
-                    'reprogramado_por': h.reprogramado_por.nombre if h.reprogramado_por else None,
-                    'fecha_cambio': h.created_at
-                }
-                for h in historiales
-            ]
-            historial_data.append(reserva_data)
-        return Response({'count': len(historial_data), 'historial': historial_data})
+    pagination_class = ReservaPagination
 
 
 
@@ -799,7 +626,7 @@ class PagoViewSet(viewsets.ModelViewSet):
     queryset = Pago.objects.select_related('reserva').all()
     serializer_class = PagoSerializer
     permission_classes = [permissions.AllowAny]
-
+    pagination_class = ReservaPagination
 
 # =====================================================
 # 🔁 REGLA_REPROGRAMACION
