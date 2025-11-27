@@ -522,7 +522,7 @@ def obtener_datos_graficas(request):
 # ============================================================================
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([])
 def generar_reporte_ventas(request):
     """
     GET /api/reportes/ventas/
